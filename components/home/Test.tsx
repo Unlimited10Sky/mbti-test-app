@@ -431,51 +431,56 @@ export default function Test() {
     if (result) {
       return (
         <div className="result-container">
-          <h2 className="text-2xl font-bold mb-4">您的MBTI类型是: {result}</h2>
-          <h3 className="text-xl mb-3">{mbtiProfiles[result as keyof typeof mbtiProfiles]?.title || ''}</h3>
-          <p className="mb-6">{mbtiProfiles[result as keyof typeof mbtiProfiles]?.description || ''}</p>
+          <div className="result-type">{result}</div>
+          <div className="result-title">{mbtiProfiles[result as keyof typeof mbtiProfiles]?.title || ''}</div>
+          <p className="result-description">{mbtiProfiles[result as keyof typeof mbtiProfiles]?.description || ''}</p>
           
           {/* 分析类型选择器 */}
-          <div className="mb-6">
-            <div className="flex border border-gray-300 rounded-md overflow-hidden">
-              <button 
-                onClick={() => changeAnalysisType('basic')} 
-                className={`flex-1 py-2 ${analysisType === 'basic' ? 'bg-blue-600 text-white' : 'bg-white'}`}
-              >
-                基础分析
-              </button>
-              <button 
-                onClick={() => changeAnalysisType('career')} 
-                className={`flex-1 py-2 ${analysisType === 'career' ? 'bg-blue-600 text-white' : 'bg-white'}`}
-              >
-                职场分析
-              </button>
-              <button 
-                onClick={() => changeAnalysisType('relationship')} 
-                className={`flex-1 py-2 ${analysisType === 'relationship' ? 'bg-blue-600 text-white' : 'bg-white'}`}
-              >
-                关系分析
-              </button>
-            </div>
+          <div className="analysis-tabs">
+            <button 
+              onClick={() => changeAnalysisType('basic')} 
+              className={`analysis-tab ${analysisType === 'basic' ? 'active' : ''}`}
+            >
+              基础分析
+            </button>
+            <button 
+              onClick={() => changeAnalysisType('career')} 
+              className={`analysis-tab ${analysisType === 'career' ? 'active' : ''}`}
+            >
+              职场分析
+            </button>
+            <button 
+              onClick={() => changeAnalysisType('relationship')} 
+              className={`analysis-tab ${analysisType === 'relationship' ? 'active' : ''}`}
+            >
+              关系分析
+            </button>
           </div>
           
           {/* 维度强度图 */}
           {resultDetails && (
-            <div className="mb-6 bg-gray-50 p-4 rounded-md">
+            <div className="dimensions-chart">
               <h4 className="text-lg font-medium mb-3">您的偏好强度</h4>
               <div className="space-y-3">
                 {Object.entries(resultDetails.dimensions).map(([dim, data]: [string, any]) => (
-                  <div key={dim} className="dimension-strength">
-                    <div className="flex justify-between mb-1 text-sm">
+                  <div key={dim} className="dimension-item">
+                    <div className="dimension-labels">
                       <span>{dim.split('-')[0]}</span>
-                      <span>{data.preference} {data.strength}%</span>
+                      <span className="center-label">{data.preference} {data.strength}%</span>
                       <span>{dim.split('-')[1]}</span>
                     </div>
-                    <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
-                      <div 
-                        className={`h-2 ${data.preference === dim.split('-')[0] ? 'bg-blue-500' : 'bg-green-500'} rounded-full`}
-                        style={{ width: `${data.preference === dim.split('-')[0] ? data.strength : 100 - data.strength}%`, float: data.preference === dim.split('-')[0] ? 'left' : 'right' }}
-                      ></div>
+                    <div className="dimension-bar">
+                      {data.preference === dim.split('-')[0] ? (
+                        <div 
+                          className="dimension-value dimension-value-left"
+                          style={{ width: `${data.strength}%` }}
+                        ></div>
+                      ) : (
+                        <div 
+                          className="dimension-value dimension-value-right"
+                          style={{ width: `${data.strength}%` }}
+                        ></div>
+                      )}
                     </div>
                   </div>
                 ))}
@@ -539,9 +544,9 @@ export default function Test() {
                     
                     <section className="mb-6">
                       <h4 className="text-lg font-medium mb-2">适合的职业方向</h4>
-                      <div className="grid grid-cols-2 gap-2">
+                      <div className="careers-grid">
                         {careerData.suitableCareers.map((career, index) => (
-                          <div key={index} className="bg-gray-100 px-3 py-2 rounded-md text-sm">{career}</div>
+                          <div key={index} className="career-item">{career}</div>
                         ))}
                       </div>
                     </section>
@@ -565,13 +570,13 @@ export default function Test() {
           <div className="flex gap-4">
             <button 
               onClick={restartTest}
-              className="px-6 py-2 bg-gray-200 rounded-md hover:bg-gray-300"
+              className="btn-secondary"
             >
               重新测试
             </button>
             <button 
               onClick={() => window.print()}
-              className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+              className="btn-primary"
             >
               打印结果
             </button>
@@ -584,8 +589,8 @@ export default function Test() {
     if (loading) {
       return (
         <div className="loading-container text-center py-10">
-          <div className="mb-4">分析您的答案中...</div>
-          <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
+          <div className="mb-4" style={{ color: 'var(--color-gray-500)' }}>分析您的答案中...</div>
+          <div className="w-12 h-12 border-4 border-solid border-brand border-t-transparent rounded-full animate-spin mx-auto" style={{ borderColor: 'var(--color-brand)', borderTopColor: 'transparent' }}></div>
         </div>
       );
     }
@@ -596,26 +601,27 @@ export default function Test() {
     
     return (
       <div className="question-container">
-        <div className="flex justify-between mb-2 text-sm text-gray-600">
-          <span>问题 {currentStep + 1}/{questions.length}</span>
-          <span>完成度: {progress}%</span>
+        <div className="progress-container">
+          <div className="progress-info">
+            <span>问题 {currentStep + 1}/{questions.length}</span>
+            <span>完成度: {progress}%</span>
+          </div>
+          <div className="progress-bar">
+            <div 
+              className="progress-value" 
+              style={{ width: `${progress}%` }}
+            ></div>
+          </div>
         </div>
         
-        <div className="w-full bg-gray-200 h-2 mb-6 rounded-full">
-          <div 
-            className="bg-blue-600 h-2 rounded-full" 
-            style={{ width: `${progress}%` }}
-          ></div>
-        </div>
+        <h3 className="question-title">{currentQuestion.question}</h3>
         
-        <h3 className="text-xl mb-6">{currentQuestion.question}</h3>
-        
-        <div className="rating-options grid gap-2">
+        <div className="rating-options">
           {ratingOptions.map(option => (
             <button
               key={option.value}
               onClick={() => handleAnswer(option.value)}
-              className="py-3 px-4 border border-gray-300 rounded-md hover:bg-gray-100 transition"
+              className="rating-button"
             >
               {option.label}
             </button>
@@ -625,7 +631,7 @@ export default function Test() {
         {currentStep > 0 && (
           <button 
             onClick={goBack} 
-            className="mt-4 text-blue-600 hover:underline"
+            className="btn-secondary mt-4"
           >
             返回上一题
           </button>
@@ -635,8 +641,11 @@ export default function Test() {
   };
   
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold mb-6 text-center">MBTI人格测试</h2>
+    <div id="test" className="test-container">
+      <div className="test-header">
+        <h2>MBTI人格测试</h2>
+        <p>探索你的性格特质，发现真实的自我</p>
+      </div>
       {renderTestStage()}
     </div>
   );
