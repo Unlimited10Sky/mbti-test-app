@@ -1,55 +1,85 @@
 'use client';
 
 import { useState } from 'react';
+import { getCareerAnalysis, CareerAnalysis } from '../analysis/careerAnalysis';
+
+// 定义类型
+type DimensionKey = 'E-I' | 'S-N' | 'T-F' | 'J-P';
+type DimensionPair = { [key: string]: number };
+type DimensionMap = { [key in DimensionKey]: DimensionPair };
+type AnalysisType = 'basic' | 'career' | 'relationship';
+
+// MBTI类型名称和简短描述
+const mbtiProfiles = {
+  'INTJ': { title: '建筑师', description: '战略性思考者，具有独特的洞察力和创新能力' },
+  'INTP': { title: '逻辑学家', description: '创新的思想家，知识的探索者，善于发现复杂问题的解决方案' },
+  'ENTJ': { title: '指挥官', description: '果断的领导者，善于规划和决策，追求高效和成功' },
+  'ENTP': { title: '辩论家', description: '机智灵活的思想家，喜欢智力挑战和创新想法' },
+  'INFJ': { title: '提倡者', description: '理想主义者，有强烈的个人信念，致力于帮助他人' },
+  'INFP': { title: '调停者', description: '富有同情心的理想主义者，看重个人价值和内在和谐' },
+  'ENFJ': { title: '主人公', description: '富有魅力的协调者，能鼓舞他人，致力于积极影响' },
+  'ENFP': { title: '探险家', description: '热情洋溢的创新者，总能看到可能性，渴望帮助他人成长' },
+  'ISTJ': { title: '物流师', description: '实际可靠的组织者，注重细节和秩序，重视传统和忠诚' },
+  'ISFJ': { title: '守卫者', description: '尽职尽责的保护者，愿意付出努力帮助他人，注重稳定' },
+  'ESTJ': { title: '总经理', description: '高效的管理者，重视秩序和规则，思维条理清晰' },
+  'ESFJ': { title: '执政官', description: '热心的合作者，关注他人需求，重视和谐与责任' },
+  'ISTP': { title: '鉴赏家', description: '灵活的分析者，善于利用工具解决实际问题，喜欢探索' },
+  'ISFP': { title: '冒险家', description: '灵活善变的艺术家，以自己的方式欣赏美，追求和平' },
+  'ESTP': { title: '企业家', description: '活力四射的问题解决者，喜欢冒险和实际体验' },
+  'ESFP': { title: '表演者', description: '自发友好的娱乐者，喜欢与他人互动，享受当下' }
+};
 
 export default function Test() {
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [result, setResult] = useState<string | null>(null);
+  const [resultDetails, setResultDetails] = useState<any>(null);
   const [loading, setLoading] = useState(false);
+  const [analysisType, setAnalysisType] = useState<AnalysisType>('basic');
+  const [careerData, setCareerData] = useState<CareerAnalysis | null>(null);
   
-  // 优化后的MBTI测试问题 - 使用7点量表
+  // 优化后的MBTI测试问题 - 使用7点量表，更符合中国文化背景
   const questions = [
     // I. 内向/外向 (E-I)
     {
       id: 1,
-      question: "在社交场合中，我通常是精力充沛且积极参与谈话的那一个。",
+      question: "在朋友聚会或同学聚餐时，我通常愿意主动引导话题并分享自己的经历。",
       dimension: "E-I",
       direction: "E" // 同意表示外向(E)倾向
     },
     {
       id: 2,
-      question: "我宁愿花时间与少数几个亲密朋友深入交流，而不是认识很多新朋友。",
+      question: "我更享受与一两个知己长谈，而不是参加热闹的社交活动。",
       dimension: "E-I",
       direction: "I" // 同意表示内向(I)倾向
     },
     {
       id: 3,
-      question: "在完成一项耗费精力的工作后，我更愿意通过与朋友出去活动来放松。",
+      question: "加班或学习疲惫后，我更倾向于约朋友出去放松，而不是独自休息。",
       dimension: "E-I",
       direction: "E"
     },
     {
       id: 4,
-      question: "我经常需要独处的时间来恢复精力和思考。",
+      question: "在人多嘈杂的环境中待久了，我会感到精力耗尽，需要独处来恢复。",
       dimension: "E-I",
       direction: "I"
     },
     {
       id: 5,
-      question: "在团队讨论中，我倾向于先听取他人意见，然后再表达自己的想法。",
+      question: "在团队会议或班级讨论中，我通常会先倾听他人发言，然后再表达自己的想法。",
       dimension: "E-I",
       direction: "I"
     },
     {
       id: 6,
-      question: "我喜欢成为关注的焦点。",
+      question: "在亲朋好友的聚会上，我不介意成为大家关注的焦点。",
       dimension: "E-I",
       direction: "E"
     },
     {
       id: 7,
-      question: "我更喜欢在安静的环境中工作，而不是充满活力的开放空间。",
+      question: "我更喜欢在安静的图书馆或独立空间工作学习，而不是热闹的咖啡厅或开放式办公区。",
       dimension: "E-I",
       direction: "I"
     },
@@ -57,43 +87,43 @@ export default function Test() {
     // II. 感觉/直觉 (S-N)
     {
       id: 8,
-      question: "我更关注实际的细节和具体事实，而非抽象的概念和理论。",
+      question: "处理工作或学习任务时，我更注重实际操作和具体细节，而非创新思路和概念。",
       dimension: "S-N",
       direction: "S" // 同意表示感觉(S)倾向
     },
     {
       id: 9,
-      question: "我常常发现自己在思考未来的可能性和创新的方法。",
+      question: "我常常会联想事物之间不明显的关联，发现他人容易忽略的可能性。",
       dimension: "S-N",
       direction: "N" // 同意表示直觉(N)倾向
     },
     {
       id: 10,
-      question: "在学习新事物时，我更喜欢遵循明确的、一步一步的指示。",
+      question: "学习新技能时（如做菜、使用软件等），我喜欢按部就班地遵循指南或教程。",
       dimension: "S-N",
       direction: "S"
     },
     {
       id: 11,
-      question: "我更感兴趣的是探索新想法，而不是实际应用它们。",
+      question: "我更愿意探讨未来趋势和可能性，而不是讨论当下的实际情况。",
       dimension: "S-N",
       direction: "N"
     },
     {
       id: 12,
-      question: "我认为自己是一个务实且脚踏实地的人。",
+      question: "朋友眼中的我是脚踏实地、注重事实的人，而非充满天马行空想法的人。",
       dimension: "S-N",
       direction: "S"
     },
     {
       id: 13,
-      question: "我经常发现自己会关注事物背后的含义和联系，而不仅仅是表面现象。",
+      question: "阅读材料或观看影视作品时，我常思考其中隐含的象征意义和深层主题。",
       dimension: "S-N",
       direction: "N"
     },
     {
       id: 14,
-      question: "我相信经验和已证实的方法比直觉更可靠。",
+      question: "我相信经过反复验证的方法比直觉和灵感更加可靠。",
       dimension: "S-N",
       direction: "S"
     },
@@ -101,43 +131,43 @@ export default function Test() {
     // III. 思考/情感 (T-F)
     {
       id: 15,
-      question: "在做决定时，我倾向于考虑客观事实而非个人感受。",
+      question: "在团队分工或家庭决策中，我倾向于基于逻辑和效率做决定，而非考虑每个人的感受。",
       dimension: "T-F",
       direction: "T" // 同意表示思考(T)倾向
     },
     {
       id: 16,
-      question: "我常常注意他人的情绪状态，并试图理解他们的感受。",
+      question: "我能敏锐察觉到他人情绪的细微变化，并自然地表达关心。",
       dimension: "T-F",
       direction: "F" // 同意表示情感(F)倾向
     },
     {
       id: 17,
-      question: "给予他人反馈时，我认为直接坦率比委婉表达更重要。",
+      question: "给予同事或同学反馈时，我认为直接指出问题比委婉表达更有建设性。",
       dimension: "T-F",
       direction: "T"
     },
     {
       id: 18,
-      question: "团队和谐对我来说比达成目标更为重要。",
+      question: "在工作或学习小组中，维持融洽的氛围对我来说比高效完成任务更重要。",
       dimension: "T-F",
       direction: "F"
     },
     {
       id: 19,
-      question: "我更欣赏逻辑分析能力，而不是同理心和情感理解能力。",
+      question: "我更欣赏分析问题和解决问题的能力，而不是理解他人情感和建立和谐关系的能力。",
       dimension: "T-F",
       direction: "T"
     },
     {
       id: 20,
-      question: "当朋友遇到问题时，我首先会提供情感支持，而不是立即提出解决方案。",
+      question: "当朋友分享困扰时，我首先会关心他们的感受，而不是立即提出解决方案。",
       dimension: "T-F",
       direction: "F"
     },
     {
       id: 21,
-      question: "我认为维持客观公正比照顾每个人的感受更为重要。",
+      question: "在评价他人表现或处理纠纷时，我重视公平公正的原则，即使这可能伤害到某些人的感情。",
       dimension: "T-F",
       direction: "T"
     },
@@ -145,87 +175,87 @@ export default function Test() {
     // IV. 判断/知觉 (J-P)
     {
       id: 22,
-      question: "我喜欢提前计划并组织我的日程安排。",
+      question: "我习惯提前规划行程安排，例如旅行计划、学习计划或工作日程。",
       dimension: "J-P",
       direction: "J" // 同意表示判断(J)倾向
     },
     {
       id: 23,
-      question: "我更喜欢保持灵活，根据情况随时调整计划。",
+      question: "我喜欢保持选择的开放性，根据情况随时调整计划和安排。",
       dimension: "J-P",
       direction: "P" // 同意表示知觉(P)倾向
     },
     {
       id: 24,
-      question: "面对多项任务，我会建立优先级并按顺序一一完成。",
+      question: "面对多项任务（如工作项目、考试复习等），我会建立优先级并按顺序一一完成。",
       dimension: "J-P",
       direction: "J"
     },
     {
       id: 25,
-      question: "我经常会推迟决定，以便收集更多信息或保持选择的开放性。",
+      question: "我常推迟决定，希望获取更多信息或等待更好的选择出现。",
       dimension: "J-P",
       direction: "P"
     },
     {
       id: 26,
-      question: "我喜欢在一个井然有序且结构化的环境中工作和生活。",
+      question: "我的生活和工作环境通常是整齐有序的，物品都有固定的位置。",
       dimension: "J-P",
       direction: "J"
     },
     {
       id: 27,
-      question: "我对新的、意外的变化和机会感到兴奋。",
+      question: "面对计划外的活动邀约或工作变动，我通常感到兴奋而非不适。",
       dimension: "J-P",
       direction: "P"
     },
     {
       id: 28,
-      question: "我倾向于严格遵守截止日期和时间表。",
+      question: "我会严格遵守截止日期，并希望他人也同样重视时间承诺。",
       dimension: "J-P",
       direction: "J"
     },
     
-    // V. 综合验证问题
+    // V. 综合验证和文化适应问题
     {
       id: 29,
-      question: "在理想的周末，我更愿意参加社交活动，与朋友共度时光，而不是在家里安静地度过。",
+      question: "在春节假期中，我更愿意走亲访友、参加各种聚会，而不是在家安静度假。",
       dimension: "E-I",
       direction: "E"
     },
     {
       id: 30,
-      question: "在解决问题时，我更依赖过去的经验和已知事实，而不是直觉和创新的思路。",
+      question: "处理工作或学业挑战时，我更依赖以往的经验和实用方法，而非创新的解决思路。",
       dimension: "S-N",
       direction: "S"
     },
     {
       id: 31,
-      question: "在评估一个建议时，我首先考虑这个建议是否合乎逻辑并有效，而不是它如何影响相关的人。",
+      question: "在评价一个建议或方案时，我首先考虑其逻辑合理性和实施效果，而非对相关人员的情感影响。",
       dimension: "T-F",
       direction: "T"
     },
     {
       id: 32,
-      question: "我更满意的工作方式是有清晰的结构和明确的期限，而不是有灵活性和自主性。",
+      question: "我更喜欢有明确规则和流程的工作或学习环境，而非灵活自主的安排。",
       dimension: "J-P",
       direction: "J"
     },
     {
       id: 33,
-      question: "当我需要做决定时，我更注重分析利弊，寻找最佳选择，而不是考虑决定对自己和他人的影响。",
+      question: "在家庭重大决策中（如购房、教育投资），我倾向于分析利弊做出最佳选择，而非考虑每个家庭成员的感受。",
       dimension: "T-F",
       direction: "T"
     },
     {
       id: 34,
-      question: "在我看来，理想的环境是高效且有组织的，而不是轻松且适应性强的。",
+      question: "我认为生活中最理想的状态是一切井然有序、按计划进行，而非随性自然、顺其自然。",
       dimension: "J-P",
       direction: "J"
     },
     {
       id: 35,
-      question: "我认为自己最突出的优势是分析问题和提出解决方案的能力，而不是理解他人感受并建立良好关系的能力。",
+      question: "同事、同学或朋友认为我擅长的是分析问题和找出解决方案，而非理解他人需求和协调人际关系。",
       dimension: "T-F",
       direction: "T"
     }
@@ -256,21 +286,13 @@ export default function Test() {
     }
   };
   
-  // 计算MBTI结果
+  // 计算结果
   const calculateResult = () => {
     setLoading(true);
     
-    // 模拟加载过程
+    // 模拟计算延迟，实际生产环境中可能会调用API
     setTimeout(() => {
-      // 定义更精确的类型
-      type DimensionKey = 'E-I' | 'S-N' | 'T-F' | 'J-P';
-      type DimensionMap = {
-        'E-I': { E: number; I: number; };
-        'S-N': { S: number; N: number; };
-        'T-F': { T: number; F: number; };
-        'J-P': { J: number; P: number; };
-      };
-      
+      // 初始化四个维度的计分
       const dimensions: DimensionMap = {
         'E-I': { E: 0, I: 0 },
         'S-N': { S: 0, N: 0 },
@@ -283,55 +305,82 @@ export default function Test() {
         const question = questions[parseInt(questionIndex)];
         const { dimension, direction } = question;
         
-        // 基于7点量表的答案和问题方向计算得分
-        const score = answerValue - 4; // 转换为-3到+3范围
+        // 基于7点量表的答案转换为-3到+3范围
+        const score = answerValue - 4; 
         
         // 安全地将维度键转换为类型
         const dim = dimension as DimensionKey;
         
-        if (direction === 'E' || direction === 'S' || direction === 'T' || direction === 'J') {
-          // 如果问题方向是E/S/T/J，同意(高分)表示倾向于第一个字母
-          if (score > 0) {
-            // 根据维度选择正确的属性
-            if (dim === 'E-I') dimensions[dim].E += score;
-            else if (dim === 'S-N') dimensions[dim].S += score;
-            else if (dim === 'T-F') dimensions[dim].T += score;
-            else if (dim === 'J-P') dimensions[dim].J += score;
-          } else {
-            // 不同意表示倾向于相反方向
-            if (dim === 'E-I') dimensions[dim].I += Math.abs(score);
-            else if (dim === 'S-N') dimensions[dim].N += Math.abs(score);
-            else if (dim === 'T-F') dimensions[dim].F += Math.abs(score);
-            else if (dim === 'J-P') dimensions[dim].P += Math.abs(score);
-          }
-        } else {
-          // 如果问题方向是I/N/F/P，同意(高分)表示倾向于第二个字母
-          if (score > 0) {
-            if (dim === 'E-I') dimensions[dim].I += score;
-            else if (dim === 'S-N') dimensions[dim].N += score;
-            else if (dim === 'T-F') dimensions[dim].F += score;
-            else if (dim === 'J-P') dimensions[dim].P += score;
-          } else {
-            // 不同意表示倾向于相反方向
-            if (dim === 'E-I') dimensions[dim].E += Math.abs(score);
-            else if (dim === 'S-N') dimensions[dim].S += Math.abs(score);
-            else if (dim === 'T-F') dimensions[dim].T += Math.abs(score);
-            else if (dim === 'J-P') dimensions[dim].J += Math.abs(score);
-          }
+        if (score > 0) { // 正分，表示同意
+          if (direction === 'E') dimensions[dim].E += score;
+          else if (direction === 'I') dimensions[dim].I += score;
+          else if (direction === 'S') dimensions[dim].S += score;
+          else if (direction === 'N') dimensions[dim].N += score;
+          else if (direction === 'T') dimensions[dim].T += score;
+          else if (direction === 'F') dimensions[dim].F += score;
+          else if (direction === 'J') dimensions[dim].J += score;
+          else if (direction === 'P') dimensions[dim].P += score;
+        } 
+        else if (score < 0) { // 负分，表示不同意
+          if (direction === 'E') dimensions[dim].I += Math.abs(score);
+          else if (direction === 'I') dimensions[dim].E += Math.abs(score);
+          else if (direction === 'S') dimensions[dim].N += Math.abs(score);
+          else if (direction === 'N') dimensions[dim].S += Math.abs(score);
+          else if (direction === 'T') dimensions[dim].F += Math.abs(score);
+          else if (direction === 'F') dimensions[dim].T += Math.abs(score);
+          else if (direction === 'J') dimensions[dim].P += Math.abs(score);
+          else if (direction === 'P') dimensions[dim].J += Math.abs(score);
         }
+        // 中立(score=0)不增加任何分数
       });
       
-      // 确定每个维度的偏好
-      const mbtiResult = [
-        dimensions['E-I'].E > dimensions['E-I'].I ? 'E' : 'I',
-        dimensions['S-N'].S > dimensions['S-N'].N ? 'S' : 'N',
-        dimensions['T-F'].T > dimensions['T-F'].F ? 'T' : 'F',
-        dimensions['J-P'].J > dimensions['J-P'].P ? 'J' : 'P'
+      // 确定每个维度的偏好并计算强度百分比
+      const typeResult = {
+        type: '',
+        dimensions: {
+          'E-I': { preference: '', strength: 0 },
+          'S-N': { preference: '', strength: 0 },
+          'T-F': { preference: '', strength: 0 },
+          'J-P': { preference: '', strength: 0 }
+        }
+      };
+      
+      // 计算每个维度的偏好和强度
+      Object.entries(dimensions).forEach(([dim, scores]) => {
+        const dimension = dim as DimensionKey;
+        const keys = Object.keys(scores);
+        const values = Object.values(scores);
+        const total = values[0] + values[1];
+        
+        let preference = '';
+        let strength = 50; // 默认平衡
+        
+        if (total > 0) {
+          if (values[0] > values[1]) {
+            preference = keys[0];
+            strength = Math.round((values[0] / total) * 100);
+          } else {
+            preference = keys[1];
+            strength = Math.round((values[1] / total) * 100);
+          }
+        }
+        
+        typeResult.dimensions[dimension] = { preference, strength };
+      });
+      
+      // 组合MBTI类型
+      typeResult.type = [
+        typeResult.dimensions['E-I'].preference,
+        typeResult.dimensions['S-N'].preference,
+        typeResult.dimensions['T-F'].preference,
+        typeResult.dimensions['J-P'].preference
       ].join('');
       
-      setResult(mbtiResult);
+      setResult(typeResult.type);
+      setResultDetails(typeResult);
+      setAnalysisType('basic');
       setLoading(false);
-    }, 2000);
+    }, 1500);
   };
   
   // 重新开始测试
@@ -339,173 +388,256 @@ export default function Test() {
     setCurrentStep(0);
     setAnswers({});
     setResult(null);
+    setResultDetails(null);
   };
   
-  // MBTI类型说明
-  const mbtiDescriptions: Record<string, { title: string, description: string }> = {
-    'INTJ': {
-      title: '建筑师',
-      description: '富有想象力和策略性的思想家，对一切都有计划。擅长系统思考和独立工作，追求持续改进和高效解决问题。'
-    },
-    'INTP': {
-      title: '逻辑学家',
-      description: '善于创新的发明家，对知识有着不可抑制的渴望。思维开放灵活，喜欢挑战传统观念，专注于解决复杂问题。'
-    },
-    'ENTJ': {
-      title: '指挥官',
-      description: '大胆、富有想象力和意志力强的领导者，总是找到前进的道路。果断自信，擅长制定长期战略并调动资源实现目标。'
-    },
-    'ENTP': {
-      title: '辩论家',
-      description: '聪明、好奇的思想家，不会放过任何智力挑战。思维敏捷，善于发现联系，喜欢探索可能性并挑战现状。'
-    },
-    'INFJ': {
-      title: '提倡者',
-      description: '安静、神秘，能够激励他人的理想主义者。具有深刻的洞察力，关注社会公正，致力于实现对未来的愿景。'
-    },
-    'INFP': {
-      title: '调停者',
-      description: '诗意、善良的利他主义者，总是热情地为正义的事业而奋斗。富有同情心，重视个人价值和成长，追求真实和和谐。'
-    },
-    'ENFJ': {
-      title: '主人公',
-      description: '富有魅力和感染力的领导者，能够激励他人。关注人际关系，擅长发现他人潜能，致力于促进个人与集体的发展。'
-    },
-    'ENFP': {
-      title: '活动家',
-      description: '热情、有创造力、社交能力强的自由精神，总能找到理由微笑。充满活力，善于发现机会，鼓励他人追求梦想。'
-    },
-    'ISTJ': {
-      title: '物流师',
-      description: '实际、注重事实的个体，其可靠性是无可争议的。有组织、有条理，尊重传统和责任，履行承诺并关注细节。'
-    },
-    'ISFJ': {
-      title: '守卫者',
-      description: '非常专注、温暖和保护性强的人，总是随时准备保护他们所爱的人。勤勉踏实，重视稳定和安全，愿意为他人付出。'
-    },
-    'ESTJ': {
-      title: '总经理',
-      description: '出色的管理者，对细节有不可思议的关注和关心。实际高效，遵循规则和程序，擅长组织资源实现具体目标。'
-    },
-    'ESFJ': {
-      title: '执政官',
-      description: '极其关心的、社交的、受欢迎的人，总是热心帮助他人。重视和谐与合作，组织能力强，关注他人的需要和福祉。'
-    },
-    'ISTP': {
-      title: '鉴赏家',
-      description: '大胆而实际的实验者，熟练掌握各种工具。灵活应变，善于解决具体问题，喜欢深入了解事物如何运作。'
-    },
-    'ISFP': {
-      title: '冒险家',
-      description: '灵活、魅力四射的艺术家，总是准备探索和体验新事物。感性直觉，注重当下体验，表达独特的审美观和价值观。'
-    },
-    'ESTP': {
-      title: '企业家',
-      description: '聪明、精力充沛、善于察言观色的人，真正喜欢生活在边缘。实用灵活，善于解决危机，享受风险与刺激。'
-    },
-    'ESFP': {
-      title: '表演者',
-      description: '自发、精力充沛、热情的娱乐者 - 生活从不会在他们身边变得无聊。充满活力，重视社交与体验，带给他人欢乐与兴奋。'
+  // 返回上一题
+  const goBack = () => {
+    if (currentStep > 0) {
+      setCurrentStep(currentStep - 1);
     }
+  };
+
+  // 切换分析类型
+  const changeAnalysisType = (type: AnalysisType) => {
+    setAnalysisType(type);
+    
+    // 当选择职场分析时，加载职场数据
+    if (type === 'career' && result) {
+      // 无论是否已有数据，都尝试重新加载，解决潜在问题
+      const data = getCareerAnalysis(result);
+      console.log("加载职场数据:", result, data); // 调试信息
+      
+      // 对于暂未提供分析的类型，显示基础数据
+      if (!data) {
+        setCareerData({
+          strengths: ["该类型职场分析正在完善中..."],
+          workEnvironment: "我们正在为您的类型(" + result + ")准备更详细的职场分析内容，请稍后再查看。",
+          teamRole: "团队角色分析正在完善中...",
+          leadershipStyle: "领导风格分析正在完善中...",
+          challenges: ["暂无详细挑战分析"],
+          recommendations: ["暂无详细建议"],
+          suitableCareers: ["正在整理适合的职业方向"]
+        });
+      } else {
+        setCareerData(data);
+      }
+    }
+  };
+
+  // 渲染当前测试阶段
+  const renderTestStage = () => {
+    // 测试完成，显示结果
+    if (result) {
+      return (
+        <div className="result-container">
+          <h2 className="text-2xl font-bold mb-4">您的MBTI类型是: {result}</h2>
+          <h3 className="text-xl mb-3">{mbtiProfiles[result as keyof typeof mbtiProfiles]?.title || ''}</h3>
+          <p className="mb-6">{mbtiProfiles[result as keyof typeof mbtiProfiles]?.description || ''}</p>
+          
+          {/* 分析类型选择器 */}
+          <div className="mb-6">
+            <div className="flex border border-gray-300 rounded-md overflow-hidden">
+              <button 
+                onClick={() => changeAnalysisType('basic')} 
+                className={`flex-1 py-2 ${analysisType === 'basic' ? 'bg-blue-600 text-white' : 'bg-white'}`}
+              >
+                基础分析
+              </button>
+              <button 
+                onClick={() => changeAnalysisType('career')} 
+                className={`flex-1 py-2 ${analysisType === 'career' ? 'bg-blue-600 text-white' : 'bg-white'}`}
+              >
+                职场分析
+              </button>
+              <button 
+                onClick={() => changeAnalysisType('relationship')} 
+                className={`flex-1 py-2 ${analysisType === 'relationship' ? 'bg-blue-600 text-white' : 'bg-white'}`}
+              >
+                关系分析
+              </button>
+            </div>
+          </div>
+          
+          {/* 维度强度图 */}
+          {resultDetails && (
+            <div className="mb-6 bg-gray-50 p-4 rounded-md">
+              <h4 className="text-lg font-medium mb-3">您的偏好强度</h4>
+              <div className="space-y-3">
+                {Object.entries(resultDetails.dimensions).map(([dim, data]: [string, any]) => (
+                  <div key={dim} className="dimension-strength">
+                    <div className="flex justify-between mb-1 text-sm">
+                      <span>{dim.split('-')[0]}</span>
+                      <span>{data.preference} {data.strength}%</span>
+                      <span>{dim.split('-')[1]}</span>
+                    </div>
+                    <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                      <div 
+                        className={`h-2 ${data.preference === dim.split('-')[0] ? 'bg-blue-500' : 'bg-green-500'} rounded-full`}
+                        style={{ width: `${data.preference === dim.split('-')[0] ? data.strength : 100 - data.strength}%`, float: data.preference === dim.split('-')[0] ? 'left' : 'right' }}
+                      ></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+          
+          {/* 分析内容 - 根据当前选择显示不同内容 */}
+          <div className="analysis-content mb-6">
+            {analysisType === 'basic' && (
+              <div className="basic-analysis">
+                <p>这是基础分析内容。要查看更详细的职场分析或关系分析，请点击上方对应的选项卡。</p>
+              </div>
+            )}
+            
+            {analysisType === 'career' && (
+              <div className="career-analysis">
+                {careerData ? (
+                  <div className="career-content">
+                    <section className="mb-6">
+                      <h4 className="text-lg font-medium mb-2">职场优势</h4>
+                      <ul className="list-disc pl-5 space-y-1">
+                        {careerData.strengths.map((strength, index) => (
+                          <li key={index}>{strength}</li>
+                        ))}
+                      </ul>
+                    </section>
+                    
+                    <section className="mb-6">
+                      <h4 className="text-lg font-medium mb-2">理想工作环境</h4>
+                      <p className="text-gray-700">{careerData.workEnvironment}</p>
+                    </section>
+                    
+                    <section className="mb-6">
+                      <h4 className="text-lg font-medium mb-2">团队中的角色</h4>
+                      <p className="text-gray-700">{careerData.teamRole}</p>
+                    </section>
+                    
+                    <section className="mb-6">
+                      <h4 className="text-lg font-medium mb-2">领导风格</h4>
+                      <p className="text-gray-700">{careerData.leadershipStyle}</p>
+                    </section>
+                    
+                    <section className="mb-6">
+                      <h4 className="text-lg font-medium mb-2">职场挑战</h4>
+                      <ul className="list-disc pl-5 space-y-1">
+                        {careerData.challenges.map((challenge, index) => (
+                          <li key={index}>{challenge}</li>
+                        ))}
+                      </ul>
+                    </section>
+                    
+                    <section className="mb-6">
+                      <h4 className="text-lg font-medium mb-2">职业发展建议</h4>
+                      <ul className="list-disc pl-5 space-y-1">
+                        {careerData.recommendations.map((recommendation, index) => (
+                          <li key={index}>{recommendation}</li>
+                        ))}
+                      </ul>
+                    </section>
+                    
+                    <section className="mb-6">
+                      <h4 className="text-lg font-medium mb-2">适合的职业方向</h4>
+                      <div className="grid grid-cols-2 gap-2">
+                        {careerData.suitableCareers.map((career, index) => (
+                          <div key={index} className="bg-gray-100 px-3 py-2 rounded-md text-sm">{career}</div>
+                        ))}
+                      </div>
+                    </section>
+                  </div>
+                ) : (
+                  <div className="py-8 text-center">
+                    <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-blue-600 border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" role="status"></div>
+                    <p className="mt-2">正在加载职场分析...</p>
+                  </div>
+                )}
+              </div>
+            )}
+            
+            {analysisType === 'relationship' && (
+              <div className="relationship-analysis">
+                <p className="text-gray-700">关系分析模块正在开发中，敬请期待...</p>
+              </div>
+            )}
+          </div>
+          
+          <div className="flex gap-4">
+            <button 
+              onClick={restartTest}
+              className="px-6 py-2 bg-gray-200 rounded-md hover:bg-gray-300"
+            >
+              重新测试
+            </button>
+            <button 
+              onClick={() => window.print()}
+              className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+            >
+              打印结果
+            </button>
+          </div>
+        </div>
+      );
+    }
+    
+    // 加载中
+    if (loading) {
+      return (
+        <div className="loading-container text-center py-10">
+          <div className="mb-4">分析您的答案中...</div>
+          <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
+        </div>
+      );
+    }
+    
+    // 测试中
+    const currentQuestion = questions[currentStep];
+    const progress = Math.round((currentStep / questions.length) * 100);
+    
+    return (
+      <div className="question-container">
+        <div className="flex justify-between mb-2 text-sm text-gray-600">
+          <span>问题 {currentStep + 1}/{questions.length}</span>
+          <span>完成度: {progress}%</span>
+        </div>
+        
+        <div className="w-full bg-gray-200 h-2 mb-6 rounded-full">
+          <div 
+            className="bg-blue-600 h-2 rounded-full" 
+            style={{ width: `${progress}%` }}
+          ></div>
+        </div>
+        
+        <h3 className="text-xl mb-6">{currentQuestion.question}</h3>
+        
+        <div className="rating-options grid gap-2">
+          {ratingOptions.map(option => (
+            <button
+              key={option.value}
+              onClick={() => handleAnswer(option.value)}
+              className="py-3 px-4 border border-gray-300 rounded-md hover:bg-gray-100 transition"
+            >
+              {option.label}
+            </button>
+          ))}
+        </div>
+        
+        {currentStep > 0 && (
+          <button 
+            onClick={goBack} 
+            className="mt-4 text-blue-600 hover:underline"
+          >
+            返回上一题
+          </button>
+        )}
+      </div>
+    );
   };
   
   return (
-    <section id="test" className="section bg-[#f5f5f7]">
-      <div className="container">
-        <div className="text-center mb-16">
-          <h2 className="heading">开始你的MBTI测试</h2>
-          <p className="subheading mx-auto">
-            通过回答以下问题，了解你的性格类型和特质
-          </p>
-        </div>
-        
-        <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-sm p-8">
-          {!result ? (
-            <>
-              {!loading ? (
-                <>
-                  <div className="mb-8">
-                    <div className="w-full bg-gray-200 rounded-full h-2.5">
-                      <div 
-                        className="bg-[#0071e3] h-2.5 rounded-full transition-all duration-300" 
-                        style={{ width: `${(currentStep / questions.length) * 100}%` }}
-                      ></div>
-                    </div>
-                    <div className="mt-2 text-right text-sm text-[#86868b]">
-                      {currentStep + 1} / {questions.length}
-                    </div>
-                  </div>
-                  
-                  <div className="mb-8">
-                    <h3 className="text-2xl font-bold text-[#1d1d1f] mb-6">
-                      {questions[currentStep].question}
-                    </h3>
-                    
-                    <div className="mt-6">
-                      <div className="relative">
-                        <div className="absolute left-0 top-1/2 transform -translate-y-1/2 text-lg font-medium">
-                          同意
-                        </div>
-                        <div className="flex flex-col mx-auto max-w-xs">
-                          {ratingOptions.map((option) => (
-                            <button
-                              key={option.value}
-                              className={`w-full px-4 py-2 my-1 text-center transition-all duration-200
-                                ${answers[currentStep] === option.value ? 'bg-blue-100 text-blue-600 font-medium' : 'hover:bg-gray-100'}`}
-                              onClick={() => handleAnswer(option.value)}
-                            >
-                              {option.label}
-                            </button>
-                          ))}
-                        </div>
-                        <div className="absolute right-0 top-1/2 transform -translate-y-1/2 text-lg font-medium">
-                          不同意
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </>
-              ) : (
-                <div className="py-12 text-center">
-                  <div className="inline-block h-12 w-12 animate-spin rounded-full border-4 border-solid border-[#0071e3] border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" role="status"></div>
-                  <p className="mt-4 text-[#86868b]">正在分析您的答案...</p>
-                </div>
-              )}
-            </>
-          ) : (
-            <div className="text-center py-8">
-              <div className="w-20 h-20 mx-auto bg-[#0071e3]/10 rounded-full flex items-center justify-center mb-6">
-                <span className="text-2xl font-bold text-[#0071e3]">{result}</span>
-              </div>
-              
-              <h3 className="text-2xl font-bold text-[#1d1d1f] mb-2">
-                您的MBTI类型：{mbtiDescriptions[result]?.title || ''}
-              </h3>
-              
-              <p className="text-[#86868b] mb-8">
-                {mbtiDescriptions[result]?.description || ''}
-              </p>
-              
-              <div className="bg-[#f5f5f7] rounded-lg p-6 mb-8">
-                <h4 className="font-medium text-[#1d1d1f] mb-3">想了解更多关于您的性格类型？</h4>
-                <p className="text-sm text-[#86868b] mb-4">
-                  订阅我们的专业版报告，获取更深入的分析和个性化建议。
-                </p>
-                <button className="btn-primary w-full">
-                  升级到专业版
-                </button>
-              </div>
-              
-              <button 
-                onClick={restartTest}
-                className="text-[#0071e3] hover:underline"
-              >
-                重新测试
-              </button>
-            </div>
-          )}
-        </div>
-      </div>
-    </section>
+    <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-md">
+      <h2 className="text-2xl font-bold mb-6 text-center">MBTI人格测试</h2>
+      {renderTestStage()}
+    </div>
   );
 } 
