@@ -460,7 +460,7 @@ export default function Test() {
           {/* 维度强度图 */}
           {resultDetails && (
             <div className="dimensions-chart">
-              <h4 className="text-lg font-medium mb-3">您的偏好强度</h4>
+              <h4>您的偏好强度</h4>
               <div className="space-y-3">
                 {Object.entries(resultDetails.dimensions).map(([dim, data]: [string, any]) => (
                   <div key={dim} className="dimension-item">
@@ -500,8 +500,8 @@ export default function Test() {
               <div className="career-analysis">
                 {careerData ? (
                   <div className="career-content">
-                    <section className="mb-6">
-                      <h4 className="text-lg font-medium mb-2">职场优势</h4>
+                    <section>
+                      <h4>职场优势</h4>
                       <ul className="list-disc pl-5 space-y-1">
                         {careerData.strengths.map((strength, index) => (
                           <li key={index}>{strength}</li>
@@ -509,23 +509,23 @@ export default function Test() {
                       </ul>
                     </section>
                     
-                    <section className="mb-6">
-                      <h4 className="text-lg font-medium mb-2">理想工作环境</h4>
-                      <p className="text-gray-700">{careerData.workEnvironment}</p>
+                    <section>
+                      <h4>理想工作环境</h4>
+                      <p>{careerData.workEnvironment}</p>
                     </section>
                     
-                    <section className="mb-6">
-                      <h4 className="text-lg font-medium mb-2">团队中的角色</h4>
-                      <p className="text-gray-700">{careerData.teamRole}</p>
+                    <section>
+                      <h4>团队中的角色</h4>
+                      <p>{careerData.teamRole}</p>
                     </section>
                     
-                    <section className="mb-6">
-                      <h4 className="text-lg font-medium mb-2">领导风格</h4>
-                      <p className="text-gray-700">{careerData.leadershipStyle}</p>
+                    <section>
+                      <h4>领导风格</h4>
+                      <p>{careerData.leadershipStyle}</p>
                     </section>
                     
-                    <section className="mb-6">
-                      <h4 className="text-lg font-medium mb-2">职场挑战</h4>
+                    <section>
+                      <h4>职场挑战</h4>
                       <ul className="list-disc pl-5 space-y-1">
                         {careerData.challenges.map((challenge, index) => (
                           <li key={index}>{challenge}</li>
@@ -533,8 +533,8 @@ export default function Test() {
                       </ul>
                     </section>
                     
-                    <section className="mb-6">
-                      <h4 className="text-lg font-medium mb-2">职业发展建议</h4>
+                    <section>
+                      <h4>职业发展建议</h4>
                       <ul className="list-disc pl-5 space-y-1">
                         {careerData.recommendations.map((recommendation, index) => (
                           <li key={index}>{recommendation}</li>
@@ -542,8 +542,8 @@ export default function Test() {
                       </ul>
                     </section>
                     
-                    <section className="mb-6">
-                      <h4 className="text-lg font-medium mb-2">适合的职业方向</h4>
+                    <section>
+                      <h4>适合的职业方向</h4>
                       <div className="careers-grid">
                         {careerData.suitableCareers.map((career, index) => (
                           <div key={index} className="career-item">{career}</div>
@@ -553,7 +553,7 @@ export default function Test() {
                   </div>
                 ) : (
                   <div className="py-8 text-center">
-                    <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-blue-600 border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" role="status"></div>
+                    <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-brand border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" role="status"></div>
                     <p className="mt-2">正在加载职场分析...</p>
                   </div>
                 )}
@@ -562,12 +562,12 @@ export default function Test() {
             
             {analysisType === 'relationship' && (
               <div className="relationship-analysis">
-                <p className="text-gray-700">关系分析模块正在开发中，敬请期待...</p>
+                <p>关系分析模块正在开发中，敬请期待...</p>
               </div>
             )}
           </div>
           
-          <div className="flex gap-4">
+          <div className="flex gap-4 justify-center">
             <button 
               onClick={restartTest}
               className="btn-secondary"
@@ -589,8 +589,8 @@ export default function Test() {
     if (loading) {
       return (
         <div className="loading-container text-center py-10">
-          <div className="mb-4" style={{ color: 'var(--color-gray-500)' }}>分析您的答案中...</div>
-          <div className="w-12 h-12 border-4 border-solid border-brand border-t-transparent rounded-full animate-spin mx-auto" style={{ borderColor: 'var(--color-brand)', borderTopColor: 'transparent' }}></div>
+          <div className="mb-4">分析您的答案中...</div>
+          <div className="w-12 h-12 border-4 border-solid border-t-transparent rounded-full animate-spin mx-auto" style={{ borderColor: 'var(--color-brand)', borderTopColor: 'transparent' }}></div>
         </div>
       );
     }
@@ -629,12 +629,14 @@ export default function Test() {
         </div>
         
         {currentStep > 0 && (
-          <button 
-            onClick={goBack} 
-            className="btn-secondary mt-4"
-          >
-            返回上一题
-          </button>
+          <div className="flex justify-center mt-6">
+            <button 
+              onClick={goBack} 
+              className="btn-secondary"
+            >
+              返回上一题
+            </button>
+          </div>
         )}
       </div>
     );
