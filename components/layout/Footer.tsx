@@ -32,16 +32,16 @@ export default function Footer() {
             </ul>
           </div> */}
           
-          <div className="footer-col">
+          {/* <div className="footer-col">
             <h3 className="footer-heading">联系我们</h3>
             <p className="footer-text footer-contact">有任何问题或建议？请联系我们</p>
             <p className="footer-text">邮箱: wwang6419g@gmail.com</p>
-          </div>
+          </div> */}
         </div>
         
         <div className="footer-bottom">
           <p className="footer-copyright">
-            &copy; {currentYear} MBTI测试. 版权所有 | 水鸟
+            &copy; {currentYear} 2025-MBTI测试. 版权所有 | 水鸟
           </p>
         </div>
       </div>
