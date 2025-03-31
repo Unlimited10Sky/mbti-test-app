@@ -41,7 +41,7 @@ export default function Footer() {
         
         <div className="footer-bottom">
           <p className="footer-copyright">
-            &copy; {currentYear} 2025-MBTI测试. 版权所有 | 水鸟
+            &copy; {currentYear} MBTI测试. 版权所有 | 水鸟
           </p>
         </div>
       </div>

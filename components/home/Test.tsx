@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 import { getCareerAnalysis, CareerAnalysis } from '../analysis/careerAnalysis';
+import CareerPathResult from '../analysis/CareerPathResult';
+import { BsGraphUp, BsBriefcase, BsPeople } from 'react-icons/bs';
 
 // 定义类型
 type DimensionKey = 'E-I' | 'S-N' | 'T-F' | 'J-P';
@@ -435,30 +437,33 @@ export default function Test() {
           <div className="result-title">{mbtiProfiles[result as keyof typeof mbtiProfiles]?.title || ''}</div>
           <p className="result-description">{mbtiProfiles[result as keyof typeof mbtiProfiles]?.description || ''}</p>
           
-          {/* 分析类型选择器 */}
+          {/* 分析类型选择器 - 更改为图形化设计 */}
           <div className="analysis-tabs">
             <button 
               onClick={() => changeAnalysisType('basic')} 
               className={`analysis-tab ${analysisType === 'basic' ? 'active' : ''}`}
             >
-              基础分析
+              <BsGraphUp size={24} style={{ marginBottom: '8px' }} />
+              <div>基础分析</div>
             </button>
             <button 
               onClick={() => changeAnalysisType('career')} 
               className={`analysis-tab ${analysisType === 'career' ? 'active' : ''}`}
             >
-              职场分析
+              <BsBriefcase size={24} style={{ marginBottom: '8px' }} />
+              <div>职场分析</div>
             </button>
             <button 
               onClick={() => changeAnalysisType('relationship')} 
               className={`analysis-tab ${analysisType === 'relationship' ? 'active' : ''}`}
             >
-              关系分析
+              <BsPeople size={24} style={{ marginBottom: '8px' }} />
+              <div>关系分析</div>
             </button>
           </div>
           
           {/* 维度强度图 */}
-          {resultDetails && (
+          {resultDetails && analysisType === 'basic' && (
             <div className="dimensions-chart">
               <h4>您的偏好强度</h4>
               <div className="space-y-3">
@@ -492,65 +497,14 @@ export default function Test() {
           <div className="analysis-content">
             {analysisType === 'basic' && (
               <div className="basic-analysis">
-                <p>这是基础分析内容。要查看更详细的职场分析或关系分析，请点击上方对应的选项卡。</p>
+                <p className="text-center">您的MBTI类型是<strong>{result} - {mbtiProfiles[result as keyof typeof mbtiProfiles]?.title}</strong>，代表着独特的思维方式和行为模式。要查看更详细的职场分析或关系分析，请点击上方对应的选项卡。</p>
               </div>
             )}
             
             {analysisType === 'career' && (
               <div className="career-analysis">
                 {careerData ? (
-                  <div className="career-content">
-                    <section>
-                      <h4>职场优势</h4>
-                      <ul className="list-disc">
-                        {careerData.strengths.map((strength, index) => (
-                          <li key={index}>{strength}</li>
-                        ))}
-                      </ul>
-                    </section>
-                    
-                    <section>
-                      <h4>理想工作环境</h4>
-                      <p>{careerData.workEnvironment}</p>
-                    </section>
-                    
-                    <section>
-                      <h4>团队中的角色</h4>
-                      <p>{careerData.teamRole}</p>
-                    </section>
-                    
-                    <section>
-                      <h4>领导风格</h4>
-                      <p>{careerData.leadershipStyle}</p>
-                    </section>
-                    
-                    <section>
-                      <h4>职场挑战</h4>
-                      <ul className="list-disc">
-                        {careerData.challenges.map((challenge, index) => (
-                          <li key={index}>{challenge}</li>
-                        ))}
-                      </ul>
-                    </section>
-                    
-                    <section>
-                      <h4>职业发展建议</h4>
-                      <ul className="list-disc">
-                        {careerData.recommendations.map((recommendation, index) => (
-                          <li key={index}>{recommendation}</li>
-                        ))}
-                      </ul>
-                    </section>
-                    
-                    <section>
-                      <h4>适合的职业方向</h4>
-                      <div className="careers-grid">
-                        {careerData.suitableCareers.map((career, index) => (
-                          <div key={index} className="career-item">{career}</div>
-                        ))}
-                      </div>
-                    </section>
-                  </div>
+                  <CareerPathResult mbtiType={result} careerData={careerData} />
                 ) : (
                   <div className="py-8 text-center">
                     <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-brand border-r-transparent align-[-0.125em]"></div>
@@ -562,12 +516,12 @@ export default function Test() {
             
             {analysisType === 'relationship' && (
               <div className="relationship-analysis">
-                <p>关系分析模块正在开发中，敬请期待...</p>
+                <p className="text-center">关系分析模块正在开发中，敬请期待...</p>
               </div>
             )}
           </div>
           
-          <div className="flex gap-4 justify-center">
+          <div className="flex gap-4 justify-center mt-8">
             <button 
               onClick={restartTest}
               className="btn-secondary"

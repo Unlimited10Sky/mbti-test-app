@@ -8,17 +8,15 @@ export default function Hero() {
       <div className="hero-container">
         <div className="hero-content">
           <h1 className="hero-heading">
-            MBTI性格分析 <span className="hero-heading-accent">&</span> 职业<br/>
-            匹配测试平台
+            AI驱动的MBTI性格分析，<br/><span className="hero-heading-accent">精准识别你的性格特质与潜能</span>
           </h1>
           <p className="hero-description">
-            生成AI驱动的MBTI性格分析，精准识别你的性格特质与潜能，<br/>
-            帮助你找到最合适的职业发展路径和人际关系模式。
+            基于精确算法，帮助你找到最合适的职业发展路径和人际关系模式
           </p>
           <div className="hero-actions">
             <Link 
               href="#test" 
-              className="btn-primary"
+              className="btn-primary hero-btn"
               onClick={(e) => {
                 e.preventDefault();
                 const testSection = document.getElementById('test');
@@ -31,13 +29,13 @@ export default function Hero() {
                 }
               }}
             >
-              开始测试 &nbsp;›
+              开始测试
             </Link>
             <Link 
               href="#features" 
-              className="btn-secondary"
+              className="btn-secondary hero-btn"
             >
-              了解更多 &nbsp;›
+              了解更多
             </Link>
           </div>
           <div className="hero-users-count">
