@@ -489,7 +489,7 @@ export default function Test() {
           )}
           
           {/* 分析内容 - 根据当前选择显示不同内容 */}
-          <div className="analysis-content mb-6">
+          <div className="analysis-content">
             {analysisType === 'basic' && (
               <div className="basic-analysis">
                 <p>这是基础分析内容。要查看更详细的职场分析或关系分析，请点击上方对应的选项卡。</p>
@@ -502,7 +502,7 @@ export default function Test() {
                   <div className="career-content">
                     <section>
                       <h4>职场优势</h4>
-                      <ul className="list-disc pl-5 space-y-1">
+                      <ul className="list-disc">
                         {careerData.strengths.map((strength, index) => (
                           <li key={index}>{strength}</li>
                         ))}
@@ -526,7 +526,7 @@ export default function Test() {
                     
                     <section>
                       <h4>职场挑战</h4>
-                      <ul className="list-disc pl-5 space-y-1">
+                      <ul className="list-disc">
                         {careerData.challenges.map((challenge, index) => (
                           <li key={index}>{challenge}</li>
                         ))}
@@ -535,7 +535,7 @@ export default function Test() {
                     
                     <section>
                       <h4>职业发展建议</h4>
-                      <ul className="list-disc pl-5 space-y-1">
+                      <ul className="list-disc">
                         {careerData.recommendations.map((recommendation, index) => (
                           <li key={index}>{recommendation}</li>
                         ))}
@@ -553,7 +553,7 @@ export default function Test() {
                   </div>
                 ) : (
                   <div className="py-8 text-center">
-                    <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-brand border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" role="status"></div>
+                    <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-brand border-r-transparent align-[-0.125em]"></div>
                     <p className="mt-2">正在加载职场分析...</p>
                   </div>
                 )}
@@ -588,7 +588,7 @@ export default function Test() {
     // 加载中
     if (loading) {
       return (
-        <div className="loading-container text-center py-10">
+        <div className="loading-container">
           <div className="mb-4">分析您的答案中...</div>
           <div className="w-12 h-12 border-4 border-solid border-t-transparent rounded-full animate-spin mx-auto" style={{ borderColor: 'var(--color-brand)', borderTopColor: 'transparent' }}></div>
         </div>
@@ -629,7 +629,7 @@ export default function Test() {
         </div>
         
         {currentStep > 0 && (
-          <div className="flex justify-center mt-6">
+          <div className="flex justify-center">
             <button 
               onClick={goBack} 
               className="btn-secondary"
@@ -645,8 +645,8 @@ export default function Test() {
   return (
     <div id="test" className="test-container">
       <div className="test-header">
-        <h2>MBTI人格测试</h2>
-        <p>探索你的性格特质，发现真实的自我</p>
+        <h2>AI 驱动的 MBTI 性格测试</h2>
+        <p>基于精确算法，提供专业的心理分析与职业匹配建议</p>
       </div>
       {renderTestStage()}
     </div>
