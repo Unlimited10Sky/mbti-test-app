@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { getCareerAnalysis, CareerAnalysis } from '../analysis/careerAnalysis';
 import CareerPathResult from '../analysis/CareerPathResult';
 import { BsGraphUp, BsBriefcase, BsPeople } from 'react-icons/bs';
+import { useLanguage } from '../../app/contexts/LanguageContext';
 
 // 定义类型
 type DimensionKey = 'E-I' | 'S-N' | 'T-F' | 'J-P';
@@ -32,6 +33,7 @@ const mbtiProfiles = {
 };
 
 export default function Test() {
+  const { language, t } = useLanguage();
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [result, setResult] = useState<string | null>(null);
@@ -45,13 +47,13 @@ export default function Test() {
     // I. 内向/外向 (E-I)
     {
       id: 1,
-      question: "在朋友聚会或同学聚餐时，我通常愿意主动引导话题并分享自己的经历。",
+      question: t('test.question.1'),
       dimension: "E-I",
       direction: "E" // 同意表示外向(E)倾向
     },
     {
       id: 2,
-      question: "我更享受与一两个知己长谈，而不是参加热闹的社交活动。",
+      question: t('test.question.2'),
       dimension: "E-I",
       direction: "I" // 同意表示内向(I)倾向
     },
@@ -89,13 +91,13 @@ export default function Test() {
     // II. 感觉/直觉 (S-N)
     {
       id: 8,
-      question: "处理工作或学习任务时，我更注重实际操作和具体细节，而非创新思路和概念。",
+      question: t('test.question.8'),
       dimension: "S-N",
       direction: "S" // 同意表示感觉(S)倾向
     },
     {
       id: 9,
-      question: "我常常会联想事物之间不明显的关联，发现他人容易忽略的可能性。",
+      question: t('test.question.9'),
       dimension: "S-N",
       direction: "N" // 同意表示直觉(N)倾向
     },
@@ -133,13 +135,13 @@ export default function Test() {
     // III. 思考/情感 (T-F)
     {
       id: 15,
-      question: "在团队分工或家庭决策中，我倾向于基于逻辑和效率做决定，而非考虑每个人的感受。",
+      question: t('test.question.15'),
       dimension: "T-F",
       direction: "T" // 同意表示思考(T)倾向
     },
     {
       id: 16,
-      question: "我能敏锐察觉到他人情绪的细微变化，并自然地表达关心。",
+      question: t('test.question.16'),
       dimension: "T-F",
       direction: "F" // 同意表示情感(F)倾向
     },
@@ -177,13 +179,13 @@ export default function Test() {
     // IV. 判断/知觉 (J-P)
     {
       id: 22,
-      question: "我习惯提前规划行程安排，例如旅行计划、学习计划或工作日程。",
+      question: t('test.question.22'),
       dimension: "J-P",
       direction: "J" // 同意表示判断(J)倾向
     },
     {
       id: 23,
-      question: "我喜欢保持选择的开放性，根据情况随时调整计划和安排。",
+      question: t('test.question.23'),
       dimension: "J-P",
       direction: "P" // 同意表示知觉(P)倾向
     },
@@ -265,14 +267,22 @@ export default function Test() {
   
   // 7点量表选项
   const ratingOptions = [
-    { value: 1, label: "强烈不同意" },
-    { value: 2, label: "不同意" },
-    { value: 3, label: "略不同意" },
-    { value: 4, label: "中立" },
-    { value: 5, label: "略同意" },
-    { value: 6, label: "同意" },
-    { value: 7, label: "强烈同意" }
+    { value: 1, label: t('test.rating.stronglyDisagree') },
+    { value: 2, label: t('test.rating.disagree') },
+    { value: 3, label: t('test.rating.slightlyDisagree') },
+    { value: 4, label: t('test.rating.neutral') },
+    { value: 5, label: t('test.rating.slightlyAgree') },
+    { value: 6, label: t('test.rating.agree') },
+    { value: 7, label: t('test.rating.stronglyAgree') }
   ];
+  
+  // 获取MBTI类型的标题和描述
+  const getMbtiProfile = (type: string) => {
+    return {
+      title: t(`mbti.${type}.title`),
+      description: t(`mbti.${type}.description`)
+    };
+  };
   
   // 回答问题
   const handleAnswer = (value: number) => {
@@ -431,11 +441,13 @@ export default function Test() {
   const renderTestStage = () => {
     // 测试完成，显示结果
     if (result) {
+      const profileInfo = getMbtiProfile(result);
+      
       return (
         <div className="result-container">
           <div className="result-type">{result}</div>
-          <div className="result-title">{mbtiProfiles[result as keyof typeof mbtiProfiles]?.title || ''}</div>
-          <p className="result-description">{mbtiProfiles[result as keyof typeof mbtiProfiles]?.description || ''}</p>
+          <div className="result-title">{profileInfo.title}</div>
+          <p className="result-description">{profileInfo.description}</p>
           
           {/* 分析类型选择器 - 更改为图形化设计 */}
           <div className="analysis-tabs">
@@ -444,28 +456,28 @@ export default function Test() {
               className={`analysis-tab ${analysisType === 'basic' ? 'active' : ''}`}
             >
               <BsGraphUp size={24} style={{ marginBottom: '8px' }} />
-              <div>基础分析</div>
+              <div>{t('test.analysis.basic')}</div>
             </button>
             <button 
               onClick={() => changeAnalysisType('career')} 
               className={`analysis-tab ${analysisType === 'career' ? 'active' : ''}`}
             >
               <BsBriefcase size={24} style={{ marginBottom: '8px' }} />
-              <div>职场分析</div>
+              <div>{t('test.analysis.career')}</div>
             </button>
             <button 
               onClick={() => changeAnalysisType('relationship')} 
               className={`analysis-tab ${analysisType === 'relationship' ? 'active' : ''}`}
             >
               <BsPeople size={24} style={{ marginBottom: '8px' }} />
-              <div>关系分析</div>
+              <div>{t('test.analysis.relationship')}</div>
             </button>
           </div>
           
           {/* 维度强度图 */}
           {resultDetails && analysisType === 'basic' && (
             <div className="dimensions-chart">
-              <h4>您的偏好强度</h4>
+              <h4>{t('test.result.yourPreference')}</h4>
               <div className="space-y-3">
                 {Object.entries(resultDetails.dimensions).map(([dim, data]: [string, any]) => (
                   <div key={dim} className="dimension-item">
@@ -497,7 +509,7 @@ export default function Test() {
           <div className="analysis-content">
             {analysisType === 'basic' && (
               <div className="basic-analysis">
-                <p className="text-center">您的MBTI类型是<strong>{result} - {mbtiProfiles[result as keyof typeof mbtiProfiles]?.title}</strong>，代表着独特的思维方式和行为模式。要查看更详细的职场分析或关系分析，请点击上方对应的选项卡。</p>
+                <p className="text-center">{t('test.result.basicInfo')}<strong>{result} - {profileInfo.title}</strong>{t('test.result.description')}</p>
               </div>
             )}
             
@@ -508,7 +520,7 @@ export default function Test() {
                 ) : (
                   <div className="py-8 text-center">
                     <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-brand border-r-transparent align-[-0.125em]"></div>
-                    <p className="mt-2">正在加载职场分析...</p>
+                    <p className="mt-2">{t('test.career.loading')}</p>
                   </div>
                 )}
               </div>
@@ -516,7 +528,7 @@ export default function Test() {
             
             {analysisType === 'relationship' && (
               <div className="relationship-analysis">
-                <p className="text-center">关系分析模块正在开发中，敬请期待...</p>
+                <p className="text-center">{t('test.relationship.developing')}</p>
               </div>
             )}
           </div>
@@ -526,13 +538,13 @@ export default function Test() {
               onClick={restartTest}
               className="btn-secondary"
             >
-              重新测试
+              {t('test.button.restart')}
             </button>
             <button 
               onClick={() => window.print()}
               className="btn-primary"
             >
-              打印结果
+              {t('test.button.print')}
             </button>
           </div>
         </div>
@@ -543,7 +555,7 @@ export default function Test() {
     if (loading) {
       return (
         <div className="loading-container">
-          <div className="mb-4">分析您的答案中...</div>
+          <div className="mb-4">{t('test.loading')}</div>
           <div className="w-12 h-12 border-4 border-solid border-t-transparent rounded-full animate-spin mx-auto" style={{ borderColor: 'var(--color-brand)', borderTopColor: 'transparent' }}></div>
         </div>
       );
@@ -557,8 +569,8 @@ export default function Test() {
       <div className="question-container">
         <div className="progress-container">
           <div className="progress-info">
-            <span>问题 {currentStep + 1}/{questions.length}</span>
-            <span>完成度: {progress}%</span>
+            <span>{t('test.progress.question')} {currentStep + 1}/{questions.length}</span>
+            <span>{t('test.progress.completion')}: {progress}%</span>
           </div>
           <div className="progress-bar">
             <div 
@@ -588,7 +600,7 @@ export default function Test() {
               onClick={goBack} 
               className="btn-secondary"
             >
-              返回上一题
+              {t('test.button.back')}
             </button>
           </div>
         )}
@@ -599,8 +611,8 @@ export default function Test() {
   return (
     <div id="test" className="test-container">
       <div className="test-header">
-        <h2>AI 驱动的 MBTI 性格测试</h2>
-        <p>基于精确算法，提供专业的心理分析与职业匹配建议</p>
+        <h2>{t('test.header.title')}</h2>
+        <p>{t('test.header.description')}</p>
       </div>
       {renderTestStage()}
     </div>

@@ -1,6 +1,8 @@
+'use client';
+
 import "./globals.css";
-import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
+import { LanguageProvider, useLanguage } from "./contexts/LanguageContext";
 
 const inter = Inter({ 
   subsets: ["latin"],
@@ -8,25 +10,13 @@ const inter = Inter({
   display: 'swap',
 });
 
-export const metadata: Metadata = {
-  title: "MBTI性格分析与职业匹配测试平台 | AI驱动的人格测试",
-  description: "基于AI算法的MBTI性格分析，精准识别16种性格类型，助你发掘潜能，找到理想职业方向与人际关系模式。",
-  keywords: ["MBTI", "性格测试", "人格分析", "职业规划", "自我认知", "AI驱动", "人工智能"],
-};
+// 包装器组件，用于访问语言上下文
+function RootLayoutContent({ children }: { children: React.ReactNode }) {
+  const { language } = useLanguage();
+  const htmlLang = language === 'zh' ? 'zh-CN' : 'en';
 
-export const viewport: Viewport = {
-  width: "device-width",
-  initialScale: 1,
-  maximumScale: 1,
-};
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
   return (
-    <html lang="zh-CN">
+    <html lang={htmlLang}>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -35,5 +25,19 @@ export default function RootLayout({
         {children}
       </body>
     </html>
+  );
+}
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <LanguageProvider>
+      <RootLayoutContent>
+        {children}
+      </RootLayoutContent>
+    </LanguageProvider>
   );
 }

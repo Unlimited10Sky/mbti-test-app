@@ -1147,6 +1147,16 @@ p {
   border-color: var(--color-text-title);
 }
 
+.language-option.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.language-option.disabled:hover {
+  background-color: transparent;
+  transform: none;
+}
+
 /* 响应式调整 */
 @media (max-width: 768px) {
   .hero-heading {

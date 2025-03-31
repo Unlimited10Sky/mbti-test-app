@@ -2,9 +2,11 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { useLanguage } from '../../app/contexts/LanguageContext';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { t } = useLanguage();
 
   return (
     <header className="site-header">
@@ -14,16 +16,16 @@ export default function Header() {
         {/* Desktop Navigation */}
         <nav className="main-nav">
           <ul className="nav-list">
-            <li><Link href="/" className="nav-item">首页</Link></li>
-            <li><Link href="#features" className="nav-item">功能特点</Link></li>
-            <li><Link href="#test" className="nav-item">开始测试</Link></li>
-            <li><Link href="#pricing" className="nav-item">价格方案</Link></li>
-            <li><Link href="#faq" className="nav-item">常见问题</Link></li>
+            <li><Link href="/" className="nav-item">{t('header.home')}</Link></li>
+            <li><Link href="#features" className="nav-item">{t('header.features')}</Link></li>
+            <li><Link href="#test" className="nav-item">{t('header.startTest')}</Link></li>
+            <li><Link href="#pricing" className="nav-item">{t('header.pricing')}</Link></li>
+            <li><Link href="#faq" className="nav-item">{t('header.faq')}</Link></li>
           </ul>
         </nav>
         
         <div className="header-actions">
-          <Link href="#test" className="cta-button">立即测试</Link>
+          <Link href="#test" className="cta-button">{t('header.ctaButton')}</Link>
         </div>
         
         {/* Mobile menu button */}
@@ -56,35 +58,35 @@ export default function Header() {
               className="mobile-nav-item"
               onClick={() => setIsMenuOpen(false)}
             >
-              首页
+              {t('header.home')}
             </Link>
             <Link 
               href="#features" 
               className="mobile-nav-item"
               onClick={() => setIsMenuOpen(false)}
             >
-              功能特点
+              {t('header.features')}
             </Link>
             <Link 
               href="#test" 
               className="mobile-nav-item"
               onClick={() => setIsMenuOpen(false)}
             >
-              开始测试
+              {t('header.startTest')}
             </Link>
             <Link 
               href="#pricing" 
               className="mobile-nav-item"
               onClick={() => setIsMenuOpen(false)}
             >
-              价格方案
+              {t('header.pricing')}
             </Link>
             <Link 
               href="#faq" 
               className="mobile-nav-item"
               onClick={() => setIsMenuOpen(false)}
             >
-              常见问题
+              {t('header.faq')}
             </Link>
             <div className="mobile-cta">
               <Link 
@@ -92,7 +94,7 @@ export default function Header() {
                 className="cta-button mobile-cta-button"
                 onClick={() => setIsMenuOpen(false)}
               >
-                立即测试
+                {t('header.ctaButton')}
               </Link>
             </div>
           </nav>

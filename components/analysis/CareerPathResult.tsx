@@ -2,6 +2,7 @@
 
 import { CareerAnalysis } from './careerAnalysis';
 import Image from 'next/image';
+import { useLanguage } from '../../app/contexts/LanguageContext';
 
 // SVG图标组件
 const CheckIcon = () => (
@@ -60,63 +61,76 @@ interface CareerPathResultProps {
 }
 
 export default function CareerPathResult({ mbtiType, careerData, isPremium = false }: CareerPathResultProps) {
+  const { t } = useLanguage();
+  
   // 根据MBTI类型生成职业描述
   const generateDescription = (type: string) => {
-    const descriptions: Record<string, string[]> = {
-      'INTJ': [
-        "在你的职业生涯中，你在需要战略思考和系统分析的环境中表现最佳。",
-        "你天生具备理解复杂系统的能力，这使你成为解决棘手问题的宝贵人才。你在需要深入思考和创新解决方案的角色中表现突出，通常成为团队中的战略规划者。",
-        "然而，你对自主性的强烈渴望可能使传统办公环境变得具有挑战性，你可能会发现自己在过于程序化或缺乏创新的角色中感到不满。你理想的职业应当允许你应用你的分析能力，在动态环境中解决复杂问题，并提供一定程度的独立性。"
-      ],
-      'INTP': [
-        "在你的职业生涯中，你在提供动手实践和切实成果的环境中茁壮成长。",
-        "你理解复杂系统的天赋使你成为各个领域不可或缺的问题解决者，从机械到计算机科学。你在需要快速思考和实用解决方案的角色中表现出色，经常成为危机情况中的首选人选。",
-        "然而，你对自主性的强烈渴望可能使传统办公环境变得具有挑战性，你可能会发现自己在过于程序化或抽象理论化的角色中感到不安。你理想的职业允许你在动态、不断变化的情境中应用你的技能，提供自由地用你独特的方式处理任务的机会。"
-      ],
-      'default': [
-        "在你的职业生涯中，你在能够充分发挥你独特能力和兴趣的环境中表现最佳。",
-        "你的天赋和技能使你能够在特定领域做出重要贡献。你可能在需要你核心优势的角色中表现突出，并能在团队中发挥重要作用。",
-        "理想的职业道路应当与你的价值观一致，提供适当的挑战，并允许你持续成长和发展你的技能。寻找能欣赏你独特贡献的环境至关重要。"
-      ]
-    };
-
-    return descriptions[type] || descriptions['default'];
+    if (type === 'INTJ') {
+      return [
+        t('career.description.INTJ.1'),
+        t('career.description.INTJ.2'),
+        t('career.description.INTJ.3')
+      ];
+    } else if (type === 'INTP') {
+      return [
+        t('career.description.INTP.1'),
+        t('career.description.INTP.2'),
+        t('career.description.INTP.3')
+      ];
+    } else {
+      return [
+        t('career.description.default.1'),
+        t('career.description.default.2'),
+        t('career.description.default.3')
+      ];
+    }
   };
 
   const description = generateDescription(mbtiType);
 
   // 完整特质数据 - 删除锁定状态，使所有特质可见
   const traits = [
-    { name: "完美主义", level: 2, icon: <PerfectionismIcon />, iconClass: "trait-1" },
-    { name: "野心", level: 3, icon: <AmbitionIcon />, iconClass: "trait-2" },
-    { name: "动力", level: 2, icon: <MotivationIcon />, iconClass: "trait-3" },
-    { name: "领导欲望", level: 2, icon: <LeadershipIcon />, iconClass: "trait-4" }
+    { name: t('career.trait.perfectionism'), level: 2, icon: <PerfectionismIcon />, iconClass: "trait-1" },
+    { name: t('career.trait.ambition'), level: 3, icon: <AmbitionIcon />, iconClass: "trait-2" },
+    { name: t('career.trait.motivation'), level: 2, icon: <MotivationIcon />, iconClass: "trait-3" },
+    { name: t('career.trait.leadership'), level: 2, icon: <LeadershipIcon />, iconClass: "trait-4" }
   ];
 
+  // 处理职业分析数据中的翻译键
+  const translatedCareerData = {
+    strengths: careerData.strengths.map(key => t(key)),
+    workEnvironment: t(careerData.workEnvironment),
+    teamRole: t(careerData.teamRole),
+    leadershipStyle: t(careerData.leadershipStyle),
+    challenges: careerData.challenges.map(key => t(key)),
+    recommendations: careerData.recommendations.map(key => t(key)),
+    suitableCareers: careerData.suitableCareers.map(key => t(key))
+  };
+
   // 将优势分组为两列
-  const strengthsLeft = careerData.strengths.slice(0, Math.ceil(careerData.strengths.length / 2));
-  const strengthsRight = careerData.strengths.slice(Math.ceil(careerData.strengths.length / 2));
+  const strengthsLeft = translatedCareerData.strengths.slice(0, Math.ceil(translatedCareerData.strengths.length / 2));
+  const strengthsRight = translatedCareerData.strengths.slice(Math.ceil(translatedCareerData.strengths.length / 2));
 
   // 生成优势标题
   const generateStrengthTitle = (index: number) => {
     const titles = [
-      "实用问题解决",
-      "适应性思维",
-      "战略规划",
-      "系统分析",
-      "创新思考",
-      "决策能力",
-      "团队协作",
-      "领导影响力"
+      t('career.strength.problemSolving'),
+      t('career.strength.adaptiveThinking'),
+      t('career.strength.strategicPlanning'),
+      t('career.strength.systemAnalysis'),
+      t('career.strength.innovativeThinking'),
+      t('career.strength.decisionMaking'),
+      t('career.strength.teamwork'),
+      t('career.strength.leadership')
     ];
     return titles[index % titles.length];
   };
 
   // 工作环境和团队角色信息
   const workDetails = [
-    { title: "理想工作环境", content: careerData.workEnvironment },
-    { title: "团队中的角色", content: careerData.teamRole },
-    { title: "领导风格", content: careerData.leadershipStyle }
+    { title: t('career.idealWorkEnvironment'), content: translatedCareerData.workEnvironment },
+    { title: t('career.teamRole'), content: translatedCareerData.teamRole },
+    { title: t('career.leadershipStyle'), content: translatedCareerData.leadershipStyle }
   ];
 
   return (
@@ -124,7 +138,7 @@ export default function CareerPathResult({ mbtiType, careerData, isPremium = fal
       {/* 标题部分 */}
       <div className="career-path-header">
         <div className="section-number">2</div>
-        <h2 className="section-title">职业发展路径</h2>
+        <h2 className="section-title">{t('career.title')}</h2>
       </div>
 
       {/* 职业描述部分 */}
@@ -136,7 +150,7 @@ export default function CareerPathResult({ mbtiType, careerData, isPremium = fal
 
       {/* 特质部分 */}
       <div className="traits-section">
-        <h3 className="section-subtitle">影响力特质</h3>
+        <h3 className="section-subtitle">{t('career.traits')}</h3>
         <div className="traits-grid">
           {traits.map((trait, index) => (
             <div key={index} className="trait-item">
@@ -154,7 +168,7 @@ export default function CareerPathResult({ mbtiType, careerData, isPremium = fal
 
       {/* 工作环境和团队角色部分 */}
       <div className="work-details-section">
-        <h3 className="section-subtitle">工作环境与团队角色</h3>
+        <h3 className="section-subtitle">{t('career.workAndTeam')}</h3>
         <div className="work-details-grid">
           {workDetails.map((detail, index) => (
             <div key={index} className="work-detail-item">
@@ -167,7 +181,7 @@ export default function CareerPathResult({ mbtiType, careerData, isPremium = fal
 
       {/* 优势部分 */}
       <div className="strengths-section">
-        <h3 className="section-subtitle">你的优势</h3>
+        <h3 className="section-subtitle">{t('career.strengths')}</h3>
         <div className="strengths-grid">
           <div>
             {strengthsLeft.map((strength, index) => (
@@ -200,9 +214,9 @@ export default function CareerPathResult({ mbtiType, careerData, isPremium = fal
 
       {/* 职业推荐部分 */}
       <div className="careers-section">
-        <h3 className="section-subtitle">推荐职业方向</h3>
+        <h3 className="section-subtitle">{t('career.recommendedCareers')}</h3>
         <div className="careers-grid">
-          {careerData.suitableCareers.map((career, index) => (
+          {translatedCareerData.suitableCareers.map((career, index) => (
             <div key={index} className="career-item">
               <span className="career-number">{index + 1}</span>
               <span className="career-name">{career}</span>
