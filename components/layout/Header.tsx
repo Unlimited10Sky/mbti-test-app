@@ -20,10 +20,7 @@ export default function Header() {
             {/* 暂时隐藏的菜单项
             <li><Link href="/" className="nav-item">{t('header.home')}</Link></li>
             <li><Link href="#features" className="nav-item">{t('header.features')}</Link></li>
-            */}
-            <li><LanguageSelector variant="select" /></li>
-            {/* <li><Link href="#test" className="nav-item">{t('header.startTest')}</Link></li> */}
-            {/* 暂时隐藏的菜单项
+            <li><Link href="#test" className="nav-item">{t('header.startTest')}</Link></li>
             <li><Link href="#pricing" className="nav-item">{t('header.pricing')}</Link></li>
             <li><Link href="#faq" className="nav-item">{t('header.faq')}</Link></li>
             */}
@@ -31,7 +28,12 @@ export default function Header() {
         </nav>
         
         <div className="header-actions">
-          <Link href="#test" className="cta-button">{t('header.ctaButton')}</Link>
+          <div className="cta-wrapper">
+            <Link href="#test" className="cta-button">{t('header.ctaButton')}</Link>
+          </div>
+          <div className="lang-wrapper">
+            <LanguageSelector variant="select" className="header-language-selector" />
+          </div>
         </div>
         
         {/* Mobile menu button */}
@@ -75,9 +77,6 @@ export default function Header() {
               {t('header.features')}
             </Link>
             */}
-            <div className="mobile-nav-item">
-              <LanguageSelector variant="select" />
-            </div>
             <Link 
               href="#test" 
               className="mobile-nav-item"
@@ -101,6 +100,9 @@ export default function Header() {
               {t('header.faq')}
             </Link>
             */}
+            <div className="mobile-nav-item">
+              <LanguageSelector variant="select" className="mobile-language-selector" />
+            </div>
             <div className="mobile-cta">
               <Link 
                 href="#test" 
