@@ -11,10 +11,14 @@ export default function Home() {
     <main className="main">
       <Header />
       <Hero />
+      {/* 暂时隐藏的组件
       <Features />
+      */}
       <Test />
+      {/* 暂时隐藏的组件 
       <Pricing />
       <FAQ />
+      */}
       <Footer />
     </main>
   );

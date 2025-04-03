@@ -3,44 +3,30 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useLanguage } from '../../app/contexts/LanguageContext';
+import LanguageSelector from '../common/LanguageSelector';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { t, language, setLanguage } = useLanguage();
+  const { t } = useLanguage();
 
   return (
     <header className="site-header">
       <div className="header-container">
-        <div className="header-left">
-          <Link href="/" className="site-logo">MBTI测试</Link>
-        </div>
+        <Link href="/" className="site-logo">MBTI测试</Link>
         
         {/* Desktop Navigation */}
         <nav className="main-nav">
           <ul className="nav-list">
+            {/* 暂时隐藏的菜单项
             <li><Link href="/" className="nav-item">{t('header.home')}</Link></li>
             <li><Link href="#features" className="nav-item">{t('header.features')}</Link></li>
-            <li>
-              <div className="language-select-wrapper">
-                <select 
-                  value={language}
-                  onChange={(e) => setLanguage(e.target.value as 'zh' | 'en')}
-                  className="language-select"
-                >
-                  <option value="zh">简体中文</option>
-                  <option value="en">English</option>
-                  <option value="jp" disabled>日本語</option>
-                  <option value="es" disabled>Español</option>
-                  <option value="fr" disabled>Français</option>
-                  <option value="de" disabled>Deutsch</option>
-                  <option value="ko" disabled>한국어</option>
-                  <option value="ru" disabled>Русский</option>
-                </select>
-              </div>
-            </li>
-            <li><Link href="#test" className="nav-item">{t('header.startTest')}</Link></li>
+            */}
+            <li><LanguageSelector variant="select" /></li>
+            {/* <li><Link href="#test" className="nav-item">{t('header.startTest')}</Link></li> */}
+            {/* 暂时隐藏的菜单项
             <li><Link href="#pricing" className="nav-item">{t('header.pricing')}</Link></li>
             <li><Link href="#faq" className="nav-item">{t('header.faq')}</Link></li>
+            */}
           </ul>
         </nav>
         
@@ -73,6 +59,7 @@ export default function Header() {
       {isMenuOpen && (
         <div className="mobile-menu" id="mobile-menu">
           <nav className="mobile-nav">
+            {/* 暂时隐藏的菜单项
             <Link 
               href="/" 
               className="mobile-nav-item"
@@ -87,18 +74,9 @@ export default function Header() {
             >
               {t('header.features')}
             </Link>
+            */}
             <div className="mobile-nav-item">
-              <div className="language-dropdown-mobile">
-                <span className="language-label">{t('header.language')}: </span>
-                <select 
-                  value={language}
-                  onChange={(e) => setLanguage(e.target.value as 'zh' | 'en')}
-                  className="language-select-mobile"
-                >
-                  <option value="zh">简体中文</option>
-                  <option value="en">English</option>
-                </select>
-              </div>
+              <LanguageSelector variant="select" />
             </div>
             <Link 
               href="#test" 
@@ -107,6 +85,7 @@ export default function Header() {
             >
               {t('header.startTest')}
             </Link>
+            {/* 暂时隐藏的菜单项
             <Link 
               href="#pricing" 
               className="mobile-nav-item"
@@ -121,6 +100,7 @@ export default function Header() {
             >
               {t('header.faq')}
             </Link>
+            */}
             <div className="mobile-cta">
               <Link 
                 href="#test" 

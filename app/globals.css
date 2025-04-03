@@ -1232,12 +1232,13 @@ p {
 /* Hero 组件样式 - 恢复为PlayAI风格 */
 .hero-section {
   padding: var(--spacing-3xl) 0;
-  background-color: var(--color-bg-dark);
-  overflow: hidden;
+  margin-bottom: var(--spacing-md);
+  background-color: var(--color-bg-light);
+  display: flex;
+  justify-content: center;
   position: relative;
   margin-top: 70px;
   text-align: center;
-  margin-bottom: 0;
 }
 
 .hero-container {
@@ -1459,6 +1460,15 @@ p {
     min-width: 100px;
     padding: var(--spacing-xs) var(--spacing-md) var(--spacing-xs) var(--spacing-xs);
   }
+}
+
+/* 测试容器样式 */
+.test-container {
+  background-color: var(--color-bg-light);
+  padding: var(--spacing-3xl) 0;
+  position: relative;
+  text-align: center;
+  margin-top: var(--spacing-xl);
 }
 
 

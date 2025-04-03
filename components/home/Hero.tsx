@@ -37,27 +37,6 @@ export default function Hero() {
             >
               {t('hero.startTest')}
             </Link>
-            <Link 
-              href="#features" 
-              className="btn-secondary hero-btn"
-              onClick={(e) => {
-                e.preventDefault();
-                const featuresSection = document.getElementById('features');
-                if (featuresSection) {
-                  const offsetTop = featuresSection.offsetTop - 80;
-                  window.scrollTo({
-                    top: offsetTop,
-                    behavior: 'smooth'
-                  });
-                }
-              }}
-            >
-              {t('hero.learnMore')}
-            </Link>
-          </div>
-          
-          <div className="hero-users-count">
-            {t('hero.userCount')} <span className="users-highlight">{userCount}</span> {t('hero.userCountSuffix')}
           </div>
         </div>
       </div>

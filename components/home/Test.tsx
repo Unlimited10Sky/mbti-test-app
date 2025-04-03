@@ -774,7 +774,7 @@ export default function Test() {
     <div id="test" className="test-container">
       <div className="test-header">
         <h2>{t('test.header.title')}</h2>
-        <p>{t('test.header.description')}</p>
+        {/* <p>{t('test.header.description')}</p> */}
       </div>
       {renderTestStage()}
       {renderResults()}
