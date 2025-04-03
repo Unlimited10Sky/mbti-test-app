@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { FaQuestionCircle, FaEnvelope, FaChevronDown } from 'react-icons/fa';
 
 export default function FAQ() {
   const [openItem, setOpenItem] = useState<number | null>(0);
@@ -47,62 +48,79 @@ export default function FAQ() {
   };
   
   return (
-    <section id="faq" className="section bg-[#f5f5f7]">
-      <div className="container">
+    <section id="faq" className="section bg-[#f8f9fa] py-20">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
         <div className="text-center mb-16">
-          <h2 className="heading">常见问题</h2>
-          <p className="subheading mx-auto">
-            关于MBTI测试的常见问题解答
+          <span className="inline-block px-4 py-1 bg-[#0071e3]/10 text-[#0071e3] rounded-full text-sm font-medium mb-4">常见问题</span>
+          <h2 className="text-4xl font-bold text-[#1d1d1f] mb-6">我们已为你解答</h2>
+          <p className="text-[#86868b] text-xl max-w-3xl mx-auto">
+            以下是关于MBTI测试的一些常见问题，若有其他疑问，欢迎联系我们
           </p>
         </div>
         
         <div className="max-w-3xl mx-auto">
-          <div className="space-y-4">
+          <div className="space-y-6">
             {faqs.map((faq) => (
               <div 
                 key={faq.id} 
-                className="bg-white rounded-lg shadow-sm overflow-hidden"
+                className={`bg-white rounded-xl shadow-sm overflow-hidden transition-all duration-300 ${
+                  openItem === faq.id ? 'ring-2 ring-[#0071e3]/20' : 'hover:shadow-md'
+                }`}
               >
                 <button
-                  className="w-full px-6 py-4 text-left flex justify-between items-center focus:outline-none"
+                  className="w-full px-8 py-5 text-left flex justify-between items-center focus:outline-none"
                   onClick={() => toggleItem(faq.id)}
+                  aria-expanded={openItem === faq.id}
                 >
-                  <span className="font-medium text-[#1d1d1f]">{faq.question}</span>
-                  <svg
-                    className={`w-5 h-5 text-[#86868b] transition-transform duration-200 ${
+                  <div className="flex items-center">
+                    <span className="text-xl font-medium text-[#1d1d1f]">{faq.question}</span>
+                  </div>
+                  <FaChevronDown
+                    className={`w-5 h-5 text-[#0071e3] transition-transform duration-300 ${
                       openItem === faq.id ? 'transform rotate-180' : ''
                     }`}
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
+                  />
                 </button>
                 <div
-                  className={`px-6 overflow-hidden transition-all duration-200 ${
-                    openItem === faq.id ? 'max-h-96 pb-4' : 'max-h-0'
+                  className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                    openItem === faq.id ? 'max-h-96' : 'max-h-0'
                   }`}
                 >
-                  <p className="text-[#86868b]">{faq.answer}</p>
+                  <div className="px-8 pb-6 text-[#86868b] leading-relaxed">
+                    {faq.answer}
+                  </div>
                 </div>
               </div>
             ))}
           </div>
           
+          <div className="mt-14 p-8 bg-gradient-to-br from-[#0071e3]/5 to-[#f5f5f7] rounded-xl shadow-sm">
+            <div className="flex flex-col md:flex-row md:items-center">
+              <div className="md:w-2/3 mb-6 md:mb-0">
+                <div className="flex items-center mb-3">
+                  <FaQuestionCircle className="text-[#0071e3] mr-3 h-6 w-6" />
+                  <h3 className="text-xl font-semibold text-[#1d1d1f]">还有其他问题？</h3>
+                </div>
+                <p className="text-[#86868b]">
+                  如果你有任何其他问题或需要个性化的帮助，请随时联系我们的客服团队，我们会尽快回复你。
+                </p>
+              </div>
+              <div className="md:w-1/3 flex justify-start md:justify-end">
+                <a 
+                  href="mailto:bourneliu66@gmail.com" 
+                  className="inline-flex items-center bg-[#0071e3] text-white py-3 px-6 rounded-lg hover:bg-[#0077ed] transition-colors duration-300"
+                >
+                  <FaEnvelope className="mr-2" />
+                  联系我们
+                </a>
+              </div>
+            </div>
+          </div>
+          
           <div className="mt-12 text-center">
-            <p className="text-[#86868b] mb-4">还有其他问题？</p>
-            <a 
-              href="mailto:bourneliu66@gmail.com" 
-              className="text-[#0071e3] hover:underline font-medium"
-            >
-              联系我们获取更多帮助
-            </a>
+            <p className="text-[#86868b] text-sm">
+              我们的支持团队工作时间：周一至周五 9:00-18:00（北京时间）
+            </p>
           </div>
         </div>
       </div>
