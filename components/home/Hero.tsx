@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useLanguage } from '../../app/contexts/LanguageContext';
 
 export default function Hero() {
-  const { t, language, setLanguage } = useLanguage();
+  const { t } = useLanguage();
   
   const userCount = '100,000+';
   
@@ -58,39 +58,6 @@ export default function Hero() {
           
           <div className="hero-users-count">
             {t('hero.userCount')} <span className="users-highlight">{userCount}</span> {t('hero.userCountSuffix')}
-          </div>
-          
-          <div className="language-selector">
-            <button 
-              className={`language-option ${language === 'zh' ? 'active' : ''}`}
-              onClick={() => setLanguage('zh')}
-            >
-              {t('language.chinese')}
-            </button>
-            <button 
-              className={`language-option ${language === 'en' ? 'active' : ''}`}
-              onClick={() => setLanguage('en')}
-            >
-              {t('language.english')}
-            </button>
-            <button className="language-option disabled">
-              {t('language.japanese')}
-            </button>
-            <button className="language-option disabled">
-              {t('language.spanish')}
-            </button>
-            <button className="language-option disabled">
-              {t('language.french')}
-            </button>
-            <button className="language-option disabled">
-              {t('language.german')}
-            </button>
-            <button className="language-option disabled">
-              {t('language.korean')}
-            </button>
-            <button className="language-option disabled">
-              {t('language.russian')}
-            </button>
           </div>
         </div>
       </div>

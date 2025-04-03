@@ -106,6 +106,10 @@ const translations: Record<string, Record<Language, string>> = {
     zh: '立即测试',
     en: 'Take Test Now'
   },
+  'header.language': {
+    zh: '语言',
+    en: 'Language'
+  },
   
   // 测试组件文本
   'test.header.title': {
