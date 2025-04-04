@@ -2187,6 +2187,41 @@ const translations: Record<string, Record<Language, string>> = {
   'mbti.ESFP.overview': {
     zh: 'ESFP型人格以其热情洋溢、社交能力和对生活的热爱而著称。你擅长创造愉快体验、与各类人交流并为当下带来活力。你重视自由表达和享受生活，喜欢与他人分享积极情感，并在提升团队氛围方面发挥重要作用。',
     en: 'ESFP personalities are known for their enthusiasm, social skills, and zest for life. You excel at creating enjoyable experiences, connecting with all types of people, and bringing energy to the present moment. You value free expression and enjoying life, like sharing positive emotions with others, and play a vital role in lifting team spirits.'
+  },
+  // MBTI关系分析内容
+  'mbti.ESFP.communication': {
+    zh: 'ESFP在沟通中往往活力四射、生动直接。你喜欢面对面交流，善于运用手势、表情和语调变化来增强表达效果。你的沟通风格注重实用性和娱乐性，倾向于用生动的故事和实例来说明观点，而非抽象理论。在沟通中，你通常乐于分享个人经历，并且善于创造轻松愉快的氛围，让对话充满活力。',
+    en: 'As an ESFP, you tend to be energetic, vivid, and direct in communication. You prefer face-to-face interactions and are skilled at using gestures, expressions, and tone variations to enhance your expression. Your communication style emphasizes practicality and entertainment, tending to illustrate points with lively stories and examples rather than abstract theories. In communication, you generally enjoy sharing personal experiences and excel at creating a relaxed, pleasant atmosphere that makes conversations vibrant.'
+  },
+  'mbti.ESFP.romantic': {
+    zh: 'ESFP在恋爱关系中通常热情而富有表现力。你重视情感体验的质量和强度，喜欢通过行动和体贴的小惊喜来表达爱意。你的恋爱风格注重当下的快乐和共同体验，而不是长远的规划。作为伴侣，你通常会给对方带来活力和乐趣，善于发现并创造特别的时刻。你渴望真实的情感连接，并希望伴侣欣赏你的自发性和乐观态度。',
+    en: 'In romantic relationships, you as an ESFP are typically passionate and expressive. You value the quality and intensity of emotional experiences and enjoy expressing love through actions and thoughtful surprises. Your dating style focuses on present happiness and shared experiences rather than long-term planning. As a partner, you usually bring vitality and joy to your significant other, excelling at discovering and creating special moments. You crave authentic emotional connections and hope your partner appreciates your spontaneity and optimistic attitude.'
+  },
+  'mbti.ESFP.friendship': {
+    zh: 'ESFP作为朋友通常慷慨且富有感染力。你享受与朋友共度时光，尤其是进行有趣的活动和体验。你的友谊风格注重忠诚和真诚，愿意为朋友提供实际帮助和情感支持。你通常是社交圈中的"生活助燃剂"，有能力让聚会更加活跃，并帮助朋友们敞开心扉。你重视友谊中的自由和接纳，欣赏能够与你一起享受生活并接受你本真性格的朋友。',
+    en: 'As an ESFP friend, you are typically generous and infectious in your enthusiasm. You enjoy spending time with friends, especially engaging in fun activities and experiences. Your friendship style emphasizes loyalty and sincerity, willingly providing practical help and emotional support to friends. You are often the "life enhancer" in social circles, with the ability to make gatherings more lively and help friends open up. You value freedom and acceptance in friendships, appreciating friends who can enjoy life with you and accept your authentic personality.'
+  },
+  'mbti.ESFP.parenting': {
+    zh: 'ESFP作为父母通常充满活力且具有感染力。你的养育风格注重乐趣和体验，喜欢通过实际活动来教导子女。你通常能够创造一个活跃且充满爱的家庭环境，鼓励孩子探索世界和表达自我。作为父母，你倾向于灵活和适应性强，能够理解每个孩子的独特需求。你重视与孩子建立真实的情感联系，并通过自己的行动教导他们享受生活和关爱他人的价值。',
+    en: 'As an ESFP parent, you are typically energetic and inspiring. Your parenting style emphasizes fun and experience, preferring to teach children through practical activities. You usually create an active and loving family environment that encourages children to explore the world and express themselves. As a parent, you tend to be flexible and adaptive, able to understand each child\'s unique needs. You value establishing authentic emotional connections with your children and teach them the value of enjoying life and caring for others through your own actions.'
+  },
+
+  // 为其他类型添加相似内容（可以根据各类型特点调整）
+  'mbti.INFJ.communication': {
+    zh: 'INFJ的沟通风格通常深思熟虑、富有洞察力且温和。他们倾向于寻找对话中的深层含义和模式，经常使用隐喻和类比来表达复杂想法。虽然在群体中可能较为安静，但在一对一交流或讨论重要话题时，他们会变得热情且富有表现力。INFJs善于倾听，能够敏锐地感知他人未说出口的感受，这使他们成为出色的调解者和顾问。',
+    en: 'INFJs communicate in a thoughtful, insightful, and gentle manner. They tend to look for deeper meanings and patterns in conversations, often using metaphors and analogies to express complex ideas. While they may be quiet in groups, they become passionate and expressive in one-on-one interactions or when discussing meaningful topics. INFJs are excellent listeners who can perceive unspoken feelings acutely, making them outstanding mediators and counselors.'
+  },
+  'mbti.INFJ.romantic': {
+    zh: 'INFJ在恋爱关系中寻求深度的情感和精神连接。他们倾向于慎重选择伴侣，珍视真诚、相互理解和共同的价值观。一旦建立连接，INFJ会全心投入，对伴侣极度忠诚和体贴。他们往往在关系中寻求长期承诺和持续成长。理想的伴侣会尊重他们的独立性和深度，同时愿意分享内心世界。由于他们敏感的本性，INFJ可能需要伴侣提供情感安全感和理解。',
+    en: 'In romantic relationships, INFJs seek profound emotional and spiritual connections. They tend to be selective about partners, valuing authenticity, mutual understanding, and shared values. Once connected, INFJs invest deeply, showing extreme loyalty and thoughtfulness toward their partners. They typically seek long-term commitment and continuous growth in relationships. An ideal partner respects their independence and depth while being willing to share their inner world. Due to their sensitive nature, INFJs may need emotional security and understanding from their partners.'
+  },
+  'mbti.INFJ.friendship': {
+    zh: 'INFJ通常拥有精心选择的小圈子朋友，而非广泛的社交网络。他们在友谊中寻求真实性和深度，宁愿与少数几个亲密朋友建立持久的联系，而非维持众多表面关系。作为朋友，INFJ可靠、支持性强且善于洞察，能够为他们所关心的人提供宝贵的指导和情感支持。虽然他们可能需要独处时间来恢复能量，但他们非常重视与亲密朋友的联系，并愿意为这些关系投入大量精力。',
+    en: 'INFJs typically maintain a carefully selected small circle of friends rather than an extensive social network. They seek authenticity and depth in friendships, preferring to establish lasting connections with a few close friends rather than maintaining numerous superficial relationships. As friends, INFJs are reliable, supportive, and insightful, offering valuable guidance and emotional support to those they care about. While they may need alone time to recharge, they greatly value connections with close friends and willingly invest significant energy in these relationships.'
+  },
+  'mbti.INFJ.parenting': {
+    zh: 'INFJ父母通常富有洞察力、关怀备至且注重孩子的个人成长。他们创造一个支持性的环境，鼓励孩子探索自己的兴趣和才能，同时培养强烈的价值观和同理心。INFJ父母善于识别孩子的独特需求和潜力，能够提供情感指导和深度交流。他们可能会为孩子设定较高期望，特别是在道德和人格发展方面，并通过榜样而非严格规则来教导。虽然他们偶尔需要独处来恢复精力，但他们对家庭生活的投入和奉献使他们成为温暖且有影响力的父母。',
+    en: 'INFJ parents are typically insightful, nurturing, and focused on their children\'s personal growth. They create a supportive environment that encourages children to explore their interests and talents while developing strong values and empathy. INFJ parents excel at identifying their children\'s unique needs and potential, providing emotional guidance and meaningful conversation. They may set high expectations, particularly regarding moral and character development, teaching through example rather than strict rules. Although they occasionally need solitude to recharge, their commitment and dedication to family life make them warm and influential parents.'
   }
 };
 

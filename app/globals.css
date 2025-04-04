@@ -2071,19 +2071,30 @@ p {
 
 /* 关系分析内容样式 */
 .relationship-content {
-  background: linear-gradient(145deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.08) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: var(--radius-lg);
-  padding: 1.5rem;
-  margin-top: 1rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(240, 240, 245, 0.85));
+  border: 1px solid rgba(130, 130, 180, 0.3);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 15px 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 }
 
 .relationship-content p {
-  color: var(--color-text-body);
-  font-size: 1rem;
-  line-height: 1.7;
-  margin: 0;
+  margin: 10px 0;
+  line-height: 1.6;
+}
+
+.relationship-zh {
+  font-weight: 500;
+  color: #222;
+  margin-bottom: 15px !important;
+}
+
+.relationship-en {
+  font-style: italic;
+  color: #555;
+  border-top: 1px dashed rgba(0, 0, 0, 0.1);
+  padding-top: 12px;
 }
 
 /* 保证关系分析部分的sections有足够间距 */

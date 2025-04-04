@@ -848,8 +848,13 @@ export default function Test() {
                 <BsPeople style={{ display: 'inline-block', marginRight: '10px' }} />
                 {t('result.communicationStyle') || '沟通风格'}
               </h3>
-              <div className="relationship-content">
-                <p>{t(`mbti.${result}.communication`) || t('result.dataBeingPrepared')}</p>
+              <div className="career-description">
+                {t(`mbti.${result}.communication`) ? (
+                  <>
+                    <p className="relationship-zh">{t(`mbti.${result}.communication`)}</p>
+                    <p className="relationship-en">{language === 'zh' ? t(`en.mbti.${result}.communication`) : t(`zh.mbti.${result}.communication`)}</p>
+                  </>
+                ) : <p>{t('result.dataBeingPrepared')}</p>}
               </div>
             </div>
             
@@ -858,8 +863,13 @@ export default function Test() {
                 <BsPeople style={{ display: 'inline-block', marginRight: '10px' }} />
                 {t('result.romanticRelationships') || '恋爱关系'}
               </h3>
-              <div className="relationship-content">
-                <p>{t(`mbti.${result}.romantic`) || t('result.dataBeingPrepared')}</p>
+              <div className="career-description">
+                {t(`mbti.${result}.romantic`) ? (
+                  <>
+                    <p className="relationship-zh">{t(`mbti.${result}.romantic`)}</p>
+                    <p className="relationship-en">{language === 'zh' ? t(`en.mbti.${result}.romantic`) : t(`zh.mbti.${result}.romantic`)}</p>
+                  </>
+                ) : <p>{t('result.dataBeingPrepared')}</p>}
               </div>
             </div>
             
@@ -868,8 +878,13 @@ export default function Test() {
                 <BsPeople style={{ display: 'inline-block', marginRight: '10px' }} />
                 {t('result.friendshipStyle') || '友谊风格'}
               </h3>
-              <div className="relationship-content">
-                <p>{t(`mbti.${result}.friendship`) || t('result.dataBeingPrepared')}</p>
+              <div className="career-description">
+                {t(`mbti.${result}.friendship`) ? (
+                  <>
+                    <p className="relationship-zh">{t(`mbti.${result}.friendship`)}</p>
+                    <p className="relationship-en">{language === 'zh' ? t(`en.mbti.${result}.friendship`) : t(`zh.mbti.${result}.friendship`)}</p>
+                  </>
+                ) : <p>{t('result.dataBeingPrepared')}</p>}
               </div>
             </div>
             
@@ -878,8 +893,13 @@ export default function Test() {
                 <BsPeople style={{ display: 'inline-block', marginRight: '10px' }} />
                 {t('result.parentingStyle') || '育儿风格'}
               </h3>
-              <div className="relationship-content">
-                <p>{t(`mbti.${result}.parenting`) || t('result.dataBeingPrepared')}</p>
+              <div className="career-description">
+                {t(`mbti.${result}.parenting`) ? (
+                  <>
+                    <p className="relationship-zh">{t(`mbti.${result}.parenting`)}</p>
+                    <p className="relationship-en">{language === 'zh' ? t(`en.mbti.${result}.parenting`) : t(`zh.mbti.${result}.parenting`)}</p>
+                  </>
+                ) : <p>{t('result.dataBeingPrepared')}</p>}
               </div>
             </div>
             
