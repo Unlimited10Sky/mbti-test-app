@@ -745,9 +745,9 @@ export default function Test() {
                           <span className="strength-icon">✓</span>
                           {t(strength).split(':')[0]}
                         </div>
-                        <p className="trait-description">
+                        {/* <p className="trait-description">
                           {t(strength).split(':')[1] || t(strength)}
-                        </p>
+                        </p> */}
                       </div>
                     ))}
                   </div>
