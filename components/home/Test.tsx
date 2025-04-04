@@ -745,9 +745,6 @@ export default function Test() {
                           <span className="strength-icon">✓</span>
                           {t(strength).split(':')[0]}
                         </div>
-                        {/* <p className="trait-description">
-                          {t(strength).split(':')[1] || t(strength)}
-                        </p> */}
                       </div>
                     ))}
                   </div>
@@ -785,9 +782,6 @@ export default function Test() {
                           <span className="challenge-icon">!</span>
                           {t(challenge).split(':')[0]}
                         </div>
-                        <p className="trait-description">
-                          {t(challenge).split(':')[1] || t(challenge)}
-                        </p>
                       </div>
                     ))}
                   </div>
