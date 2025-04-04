@@ -816,6 +816,26 @@ const translations: Record<string, Record<Language, string>> = {
     zh: '非营利组织管理者',
     en: 'Non-profit Organization Manager'
   },
+  'career.INFJ.career.1.description': {
+    zh: '心理治疗师可以充分发挥你的洞察力和同理心，帮助他人解决心理问题，促进个人成长。',
+    en: 'Psychotherapists can fully utilize your insight and empathy to help others solve psychological issues and promote personal growth.'
+  },
+  'career.INFJ.career.2.description': {
+    zh: '人力资源发展专家能让你运用对人性的理解，培养人才并创造和谐的工作环境。',
+    en: 'Human resources development specialists allow you to use your understanding of human nature to cultivate talent and create harmonious work environments.'
+  },
+  'career.INFJ.career.3.description': {
+    zh: '职业顾问/教练可以发挥你帮助他人实现潜能的天赋，指导人们找到合适的职业道路。',
+    en: 'Career counselors/coaches can leverage your talent for helping others realize their potential, guiding people to find suitable career paths.'
+  },
+  'career.INFJ.career.4.description': {
+    zh: '组织发展顾问能让你将洞察力和系统思维结合起来，帮助组织实现健康发展和变革。',
+    en: 'Organizational development consultants allow you to combine insight with systems thinking to help organizations achieve healthy development and transformation.'
+  },
+  'career.INFJ.career.5.description': {
+    zh: '非营利组织管理者可以让你为有意义的事业工作，实现你对社会产生积极影响的愿望。',
+    en: 'Non-profit organization managers allow you to work for meaningful causes, fulfilling your desire to make a positive impact on society.'
+  },
 
   // ENFP职业分析详情
   'career.ENFP.strength.1': {
@@ -2056,54 +2076,117 @@ const translations: Record<string, Record<Language, string>> = {
     zh: '感知',
     en: 'Perceiving'
   },
-  // 添加INFJ类型的优势特点翻译
-  'mbti.INFJ.strengths.1': {
-    zh: '擅长深入理解复杂问题和人际关系',
-    en: 'Adept at deeply understanding complex issues and human relationships'
+  'result.suitableCareersDescription': {
+    zh: '基于你的MBTI类型特质，以下职业方向可能非常适合你的性格和能力：',
+    en: 'Based on your MBTI type traits, the following career paths may be particularly suitable for your personality and abilities:'
   },
-  'mbti.INFJ.strengths.2': {
-    zh: '强烈的直觉和洞察力，能预见未来发展',
-    en: 'Strong intuition and insight, able to foresee future developments'
+  'result.careerMatchReason': {
+    zh: '作为{career}，你可以充分发挥你的天赋优势，在这个领域中实现自我价值并获得职业成就感。',
+    en: 'As a {career}, you can fully utilize your natural talents, achieve self-fulfillment and gain a sense of professional accomplishment in this field.'
   },
-  'mbti.INFJ.strengths.3': {
-    zh: '富有创造力和想象力，善于表达思想',
-    en: 'Creative and imaginative, good at expressing ideas'
+  'career.INTJ.career.1.description': {
+    zh: '战略咨询顾问可以充分发挥你的系统思维和未来导向能力，帮助组织规划长期发展路径。',
+    en: 'Strategic consulting advisors can fully leverage your systems thinking and future-oriented abilities to help organizations plan long-term development paths.'
   },
-  'mbti.INFJ.strengths.4': {
-    zh: '坚定的价值观和坚强的决心',
-    en: 'Strong values and determination'
+  'career.INTJ.career.2.description': {
+    zh: '系统架构师需要你的逻辑分析和创新能力，设计复杂系统架构并解决技术挑战。',
+    en: 'System architects need your logical analysis and innovative capabilities to design complex system architectures and solve technical challenges.'
   },
-  'mbti.INFJ.strengths.5': {
-    zh: '深刻的同理心，致力于帮助他人成长',
-    en: 'Deep empathy, committed to helping others grow'
+  'career.INTJ.career.3.description': {
+    zh: '数据科学家能充分利用你的分析能力和洞察力，从复杂数据中发现有价值的模式和趋势。',
+    en: 'Data scientists can fully utilize your analytical abilities and insights to discover valuable patterns and trends from complex data.'
   },
-
-  // 添加INFJ类型的挑战特点翻译
-  'mbti.INFJ.challenges.1': {
-    zh: '容易过度理想化，对自己和他人期望过高',
-    en: 'Tends to be overly idealistic, with high expectations for self and others'
+  'career.INTJ.career.4.description': {
+    zh: '投资分析师需要你的战略思维和远见卓识，评估投资风险并做出明智的财务决策。',
+    en: 'Investment analysts need your strategic thinking and foresight to assess investment risks and make informed financial decisions.'
   },
-  'mbti.INFJ.challenges.2': {
-    zh: '对批评过于敏感，难以接受反馈',
-    en: 'Overly sensitive to criticism, difficulty accepting feedback'
+  'career.INTJ.career.5.description': {
+    zh: '科研工作者能满足你对知识的追求和解决复杂问题的热情，让你在专业领域深入探索。',
+    en: 'Research scientists can satisfy your pursuit of knowledge and passion for solving complex problems, allowing you to explore deeply in professional fields.'
   },
-  'mbti.INFJ.challenges.3': {
-    zh: '过度完美主义，导致拖延和自我怀疑',
-    en: 'Excessive perfectionism, leading to procrastination and self-doubt'
+  'career.ESFP.career.1.description': {
+    zh: '娱乐表演者能让你充分展示你的自然魅力和表达天赋，在舞台上感受观众的即时反馈。',
+    en: 'Entertainment performers allow you to fully showcase your natural charm and expressive talents, feeling immediate audience feedback on stage.'
   },
-  'mbti.INFJ.challenges.4': {
-    zh: '难以表达个人需求，容易忽视自我照顾',
-    en: 'Difficulty expressing personal needs, tends to neglect self-care'
+  'career.ESFP.career.2.description': {
+    zh: '销售代表角色能让你利用你的人际魅力和说服能力，在与客户面对面接触中获得成就感。',
+    en: 'Sales representative roles allow you to leverage your interpersonal charm and persuasive abilities, gaining satisfaction from face-to-face client interactions.'
   },
-  'mbti.INFJ.challenges.5': {
-    zh: '在压力下可能完全封闭自己或情绪爆发',
-    en: 'May completely shut down or have emotional outbursts under stress'
+  'career.ESFP.career.3.description': {
+    zh: '活动策划师职业让你发挥创意和组织能力，创造令人难忘的体验并享受即时的积极反馈。',
+    en: 'Event planner careers let you use your creativity and organizational ability to create memorable experiences and enjoy immediate positive feedback.'
   },
-
-  // 添加INFJ类型的概述翻译
+  'career.ESFP.career.4.description': {
+    zh: '旅游导游工作能让你与各种人互动，分享你的热情和知识，并体验不同的环境和文化。',
+    en: 'Tour guide jobs allow you to interact with various people, share your enthusiasm and knowledge, and experience different environments and cultures.'
+  },
+  'career.ESFP.career.5.description': {
+    zh: '酒店与餐饮管理职位让你在充满活力的社交环境中工作，运用你解决问题的能力提供卓越服务。',
+    en: 'Hospitality and restaurant management positions let you work in vibrant social environments, using your problem-solving abilities to provide excellent service.'
+  },
+  'mbti.INTJ.overview': {
+    zh: 'INTJ型人格以其战略思维、独立性和渴望改进系统而著称。你擅长看到全局，识别模式，并为复杂问题开发长期解决方案。你重视知识和能力，追求持续的自我提升，并以高标准要求自己和他人。',
+    en: 'INTJ personalities are known for their strategic thinking, independence, and desire to improve systems. You excel at seeing the big picture, identifying patterns, and developing long-term solutions for complex problems. You value knowledge and competence, pursue continuous self-improvement, and have high standards for yourself and others.'
+  },
+  'mbti.INTP.overview': {
+    zh: 'INTP型人格以其逻辑思维、对概念的热爱和不断探索未知的驱动力而闻名。你擅长发现复杂问题的解决方案，喜欢挑战传统思维，并寻求对世界运作原理的深刻理解。你重视知识自由，偏好独立工作，并欣赏创新和原创性思维。',
+    en: 'INTP personalities are known for their logical thinking, love of concepts, and drive to explore the unknown. You excel at finding solutions to complex problems, enjoy challenging conventional thinking, and seek deep understanding of how the world works. You value intellectual freedom, prefer working independently, and appreciate innovation and original thinking.'
+  },
+  'mbti.ENTJ.overview': {
+    zh: 'ENTJ型人格以其决断力、战略性思维和领导能力著称。你擅长组织资源、制定长期计划并指导他人实现共同目标。你重视效率和能力，积极追求进步，并愿意做出艰难决策以确保成功。',
+    en: 'ENTJ personalities are known for their decisiveness, strategic thinking, and leadership abilities. You excel at organizing resources, creating long-term plans, and guiding others toward shared goals. You value efficiency and competence, actively pursue progress, and are willing to make tough decisions to ensure success.'
+  },
+  'mbti.ENTP.overview': {
+    zh: 'ENTP型人格以其创新思维、辩论技巧和对可能性的热情而著称。你擅长发现新机会、挑战传统观念并生成创造性解决方案。你重视智力刺激，喜欢多样化的项目，并在不断变化的环境中茁壮成长。',
+    en: 'ENTP personalities are known for their innovative thinking, debating skills, and enthusiasm for possibilities. You excel at spotting new opportunities, challenging traditional ideas, and generating creative solutions. You value intellectual stimulation, enjoy variety in projects, and thrive in constantly changing environments.'
+  },
   'mbti.INFJ.overview': {
-    zh: 'INFJ型人格是16种性格类型中最稀有的类型之一，通常被称为"提倡者"或"理想主义者"。他们善于洞察他人的内心世界，擅长找出他人的动机和潜力，并深切关注他人的成长和福祉。INFJ在价值观上非常坚定，常常受到自己的理想和内心信念所驱动，致力于创造积极的社会变革。尽管他们通常安静且保留，但INFJ在需要时可以表现得非常坚决和有魅力，特别是当他们为自己所相信的事情辩护时。',
-    en: 'INFJs are one of the rarest personality types among the 16 types, often described as "Advocates" or "Idealists." They excel at understanding the inner worlds of others, are skilled at uncovering motivations and potential in people, and are deeply concerned with the growth and wellbeing of others. INFJs hold strong values and are often driven by their ideals and internal beliefs, working toward positive social change. While typically quiet and reserved, INFJs can be quite determined and charismatic when needed, especially when advocating for what they believe in.'
+    zh: 'INFJ型人格以其深刻的洞察力、强烈的同理心和对意义追求而著称。你擅长理解他人的感受和动机，并帮助他们实现个人成长。你重视真实的联系，致力于对他人和社会产生积极影响，并在工作中寻求深层意义和目标。',
+    en: 'INFJ personalities are known for their deep insights, strong empathy, and pursuit of meaning. You excel at understanding others\' feelings and motivations, and helping them achieve personal growth. You value authentic connections, are dedicated to making a positive impact on others and society, and seek profound meaning and purpose in your work.'
+  },
+  'mbti.INFP.overview': {
+    zh: 'INFP型人格以其理想主义、强烈的个人价值观和创造性思维而著称。你擅长发现他人的潜力，表达复杂情感，并创造有意义的作品。你重视真实性和和谐，追求个人成长，并致力于与自己的核心信念保持一致。',
+    en: 'INFP personalities are known for their idealism, strong personal values, and creative thinking. You excel at seeing potential in others, expressing complex emotions, and creating meaningful work. You value authenticity and harmony, pursue personal growth, and are committed to staying true to your core beliefs.'
+  },
+  'mbti.ENFJ.overview': {
+    zh: 'ENFJ型人格以其强大的沟通能力、同理心和激励他人的天赋而著称。你擅长营造团队和谐、识别他人的潜力并帮助他们成长。你重视真诚的联系，渴望为他人的生活带来积极影响，并在促进集体幸福方面表现出色。',
+    en: 'ENFJ personalities are known for their strong communication skills, empathy, and gift for inspiring others. You excel at fostering team harmony, recognizing others\' potential, and helping them grow. You value genuine connections, desire to make a positive impact on the lives of others, and excel at promoting collective well-being.'
+  },
+  'mbti.ENFP.overview': {
+    zh: 'ENFP型人格以其热情、创造力和对可能性的热爱而著称。你擅长与各种人建立联系、发现新机会并激励他人实现其潜力。你重视自由和真实性，寻求多样化的体验，并享受将创新想法转化为现实的过程。',
+    en: 'ENFP personalities are known for their enthusiasm, creativity, and love of possibilities. You excel at connecting with diverse people, spotting new opportunities, and inspiring others to realize their potential. You value freedom and authenticity, seek varied experiences, and enjoy transforming innovative ideas into reality.'
+  },
+  'mbti.ISTJ.overview': {
+    zh: 'ISTJ型人格以其可靠性、责任心和实际的问题解决能力而著称。你擅长创建有序系统、关注细节并确保工作完成。你重视传统和稳定性，依靠过去的经验做出决策，并以完成承诺和维护高标准为荣。',
+    en: 'ISTJ personalities are known for their reliability, sense of duty, and practical problem-solving abilities. You excel at creating orderly systems, attending to details, and ensuring tasks are completed. You value tradition and stability, rely on past experiences to make decisions, and take pride in fulfilling commitments and maintaining high standards.'
+  },
+  'mbti.ISFJ.overview': {
+    zh: 'ISFJ型人格以其细心、忠诚和踏实的性格特点而著称。你擅长关注他人需求、维护传统并创造安全舒适的环境。你重视稳定和和谐，努力为所爱的人提供实际支持，并通过细致入微的关怀和服务表达关心。',
+    en: 'ISFJ personalities are known for their attentiveness, loyalty, and down-to-earth nature. You excel at anticipating others\' needs, upholding traditions, and creating safe, comfortable environments. You value stability and harmony, work hard to provide practical support for those you care about, and express concern through thoughtful care and service.'
+  },
+  'mbti.ESTJ.overview': {
+    zh: 'ESTJ型人格以其组织能力、务实态度和对结构的偏好而著称。你擅长实施系统、管理资源并确保按时完成任务。你重视效率和可靠性，喜欢明确的规则和责任，并勇于承担领导角色以确保团队达到目标。',
+    en: 'ESTJ personalities are known for their organizational abilities, practical mindset, and preference for structure. You excel at implementing systems, managing resources, and ensuring tasks are completed on time. You value efficiency and reliability, appreciate clear rules and responsibilities, and willingly take on leadership roles to ensure teams meet their objectives.'
+  },
+  'mbti.ESFJ.overview': {
+    zh: 'ESFJ型人格以其热情友好、关怀他人和组织能力而著称。你擅长创造和谐环境、满足他人的实际需求并保持社交联系。你重视合作和传统，注重维护良好关系，并从帮助和支持他人中获得满足感。',
+    en: 'ESFJ personalities are known for their warmth, care for others, and organizational abilities. You excel at creating harmonious environments, meeting others\' practical needs, and maintaining social connections. You value cooperation and tradition, place importance on maintaining good relationships, and find fulfillment in helping and supporting others.'
+  },
+  'mbti.ISTP.overview': {
+    zh: 'ISTP型人格以其实用性、适应力和解决问题的能力而著称。你擅长理解系统如何运作、处理危机并高效运用工具和资源。你重视独立和自由，喜欢动手实践，并在需要临场应变的情况下表现出色。',
+    en: 'ISTP personalities are known for their practicality, adaptability, and problem-solving abilities. You excel at understanding how systems work, handling crises, and using tools and resources efficiently. You value independence and freedom, enjoy hands-on experiences, and thrive in situations that require thinking on your feet.'
+  },
+  'mbti.ISFP.overview': {
+    zh: 'ISFP型人格以其艺术敏感性、真实表达和对生活美学的欣赏而著称。你擅长创造美丽的事物、体验当下并表达深刻的情感。你重视个人自由和真实性，以自己独特的方式欣赏美，并通常在艺术和设计等创造性领域表现出色。',
+    en: 'ISFP personalities are known for their artistic sensitivity, authentic expression, and appreciation for life\'s aesthetics. You excel at creating beautiful things, experiencing the present moment, and expressing deep emotions. You value personal freedom and authenticity, appreciate beauty in your own unique way, and often excel in creative fields like art and design.'
+  },
+  'mbti.ESTP.overview': {
+    zh: 'ESTP型人格以其活力四射、实用性和冒险精神而著称。你擅长快速解决问题、把握机会并在压力下表现出色。你重视自由和体验，喜欢实际行动而非理论，并擅长适应不断变化的环境和状况。',
+    en: 'ESTP personalities are known for their energy, practicality, and adventurous spirit. You excel at solving problems quickly, seizing opportunities, and performing well under pressure. You value freedom and experiences, prefer practical action over theory, and are skilled at adapting to ever-changing environments and situations.'
+  },
+  'mbti.ESFP.overview': {
+    zh: 'ESFP型人格以其热情洋溢、社交能力和对生活的热爱而著称。你擅长创造愉快体验、与各类人交流并为当下带来活力。你重视自由表达和享受生活，喜欢与他人分享积极情感，并在提升团队氛围方面发挥重要作用。',
+    en: 'ESFP personalities are known for their enthusiasm, social skills, and zest for life. You excel at creating enjoyable experiences, connecting with all types of people, and bringing energy to the present moment. You value free expression and enjoying life, like sharing positive emotions with others, and play a vital role in lifting team spirits.'
   }
 };
 

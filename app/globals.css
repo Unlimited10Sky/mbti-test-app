@@ -732,52 +732,82 @@ p {
   margin-bottom: 1rem;
 }
 
-/* 关系匹配部分美化 */
+/* 关系匹配样式 */
+.relationship-matches-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
 .relationship-match {
+  background: linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.1) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-xl);
+  padding: 1.5rem;
   display: flex;
-  align-items: center;
-  gap: 1rem;
-  background: linear-gradient(135deg, rgba(40, 40, 40, 0.9) 0%, rgba(30, 30, 30, 0.95) 100%);
-  border-radius: 16px;
-  padding: 1.25rem;
-  margin: 1rem 0;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  transition: all 0.3s ease;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  transition: all var(--transition-normal) var(--ease-default);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
 
 .relationship-match:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 30px rgba(155, 240, 11, 0.15);
-  border-color: rgba(155, 240, 11, 0.2);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border-color: var(--color-brand);
 }
 
 .relationship-type {
-  flex: 0 0 80px;
-  font-weight: 700;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
+  font-weight: var(--font-weight-bold);
   color: var(--color-brand);
+  margin-bottom: 0.75rem;
+  letter-spacing: 1px;
 }
 
 .relationship-description {
-  flex: 1;
+  margin-bottom: 1rem;
+  flex-grow: 1;
+}
+
+.relationship-title {
+  font-size: 1.2rem;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-heading);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.relationship-subtitle {
   font-size: 0.95rem;
-  line-height: 1.6;
-  color: var(--color-text-secondary);
+  color: var(--color-text-body);
+  line-height: 1.5;
 }
 
 .match-value {
-  flex: 0 0 60px;
-  height: 60px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 1.2rem;
-  background: linear-gradient(135deg, var(--color-brand), rgba(155, 240, 11, 0.7));
-  color: #000;
-  box-shadow: 0 5px 15px rgba(155, 240, 11, 0.2);
+  display: inline-block;
+  background: linear-gradient(90deg, var(--color-brand), rgba(155, 240, 11, 0.6));
+  color: var(--color-text-heading);
+  font-weight: var(--font-weight-semibold);
+  padding: 0.4rem 1rem;
+  border-radius: var(--radius-full);
+  font-size: 0.85rem;
+  align-self: flex-start;
+  margin-top: 0.5rem;
+  box-shadow: 0 2px 10px rgba(155, 240, 11, 0.2);
+  animation: pulseGlow 2s infinite alternate;
+}
+
+@media (max-width: 768px) {
+  .relationship-matches-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .relationship-match {
+    padding: 1.25rem;
+  }
 }
 
 /* 动画效果 */
@@ -1572,99 +1602,15 @@ p {
 }
 
 .result-content ul.list-disc {
-  padding-left: 0;
-  margin: 1.5rem 0;
-  list-style: none;
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .result-content ul.list-disc li {
-  position: relative;
-  padding-left: 1.8rem;
-  margin-bottom: 1rem;
-  color: var(--color-text-body);
+  margin-bottom: 0.5rem;
   line-height: 1.6;
-}
-
-.result-content ul.list-disc li::before {
-  content: "•";
-  position: absolute;
-  left: 0.5rem;
-  font-size: 1.5rem;
-  color: var(--color-brand);
-  line-height: 1;
-}
-
-.career-recommendation {
-  background: linear-gradient(to right, rgba(155, 240, 11, 0.08), rgba(155, 240, 11, 0.02));
-  border-radius: var(--radius-lg);
-  padding: 1.5rem;
-  margin: 2rem 0;
-  border-left: 4px solid var(--color-brand);
-}
-
-.career-recommendation h3 {
-  font-size: var(--font-size-xl);
-  margin-bottom: 1rem;
-  color: var(--color-text-title);
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.career-recommendation-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.career-recommendation-item {
-  display: flex;
-  align-items: flex-start;
-  background: rgba(255, 255, 255, 0.7);
-  padding: 1rem;
-  border-radius: var(--radius-md);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-}
-
-.career-recommendation-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.career-recommendation-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 2.5rem;
-  height: 2.5rem;
-  background: linear-gradient(135deg, var(--color-brand), rgba(155, 240, 11, 0.7));
-  color: black;
-  border-radius: var(--radius-md);
-  margin-right: 1rem;
-  font-weight: 600;
-}
-
-.career-recommendation-text {
-  flex: 1;
-  font-size: var(--font-size-base);
-  line-height: 1.5;
-}
-
-@media (max-width: 768px) {
-  .career-recommendation {
-    padding: 1.25rem;
-    margin: 1.5rem 0;
-  }
-  
-  .career-recommendation-item {
-    padding: 0.75rem;
-  }
-  
-  .career-recommendation-icon {
-    min-width: 2rem;
-    height: 2rem;
-  }
+  position: relative;
+  color: var(--color-text-secondary);
 }
 
 /* 职业卡片样式 */
@@ -1942,6 +1888,223 @@ p {
   .result-content h3 {
     font-size: 1.2rem;
   }
+}
+
+/* 挑战卡片和适合职业卡片样式 */
+.challenge-card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.challenge-card {
+  display: flex;
+  align-items: flex-start;
+  background: linear-gradient(135deg, rgba(40, 40, 40, 0.9) 0%, rgba(30, 30, 30, 0.95) 100%);
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.3s ease;
+}
+
+.challenge-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(155, 240, 11, 0.15);
+  border-color: rgba(155, 240, 11, 0.2);
+}
+
+.challenge-card .icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-brand), rgba(155, 240, 11, 0.7));
+  color: #000;
+  font-weight: bold;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.challenge-card .content {
+  flex: 1;
+}
+
+.challenge-card .description {
+  color: var(--color-text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* 适合职业卡片专业化样式 */
+.suitable-careers-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.25rem;
+  margin: 1.5rem 0;
+}
+
+.career-card {
+  background: linear-gradient(145deg, rgba(40, 40, 40, 0.95) 0%, rgba(32, 32, 32, 0.98) 100%);
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  height: 100%;
+}
+
+.career-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(155, 240, 11, 0.2);
+  border-color: rgba(155, 240, 11, 0.3);
+}
+
+.career-card-header {
+  padding: 1rem 1.25rem;
+  background: linear-gradient(90deg, rgba(30, 30, 30, 0.9), rgba(20, 20, 20, 0.95));
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 80px;
+  height: 100%;
+}
+
+.career-card-number {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-brand), rgba(155, 240, 11, 0.7));
+  color: #000;
+  font-weight: bold;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 10px rgba(155, 240, 11, 0.3);
+}
+
+.career-card-body {
+  padding: 1.25rem;
+}
+
+.career-card-title {
+  color: var(--color-text-primary);
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+}
+
+.career-card-description {
+  color: var(--color-text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.career-card-icon {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  opacity: 0.1;
+  color: var(--color-brand);
+  width: 22px;
+  height: 22px;
+  transition: all 0.3s ease;
+}
+
+.career-card:hover .career-card-icon {
+  opacity: 0.7;
+  transform: scale(1.1);
+}
+
+.career-section-title {
+  display: flex;
+  align-items: center;
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 2rem 0 1rem;
+  color: var(--color-text-primary);
+  border-bottom: 2px solid rgba(155, 240, 11, 0.3);
+  padding-bottom: 0.75rem;
+}
+
+.career-section-title svg {
+  margin-right: 0.75rem;
+  color: var(--color-brand);
+}
+
+.career-header-description {
+  color: var(--color-text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  padding: 0 0.5rem;
+}
+
+/* 适合职业列表添加辉光效果 */
+.suitable-careers-container {
+  position: relative;
+}
+
+.suitable-careers-container::after {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  background: radial-gradient(circle at center, rgba(155, 240, 11, 0.1) 0%, transparent 70%);
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.suitable-careers-container:hover::after {
+  opacity: 1;
+}
+
+/* 关系分析内容样式 */
+.relationship-content {
+  background: linear-gradient(145deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.08) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  margin-top: 1rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+}
+
+.relationship-content p {
+  color: var(--color-text-body);
+  font-size: 1rem;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* 保证关系分析部分的sections有足够间距 */
+.analysis-content .dimensions-chart {
+  margin-bottom: 2.5rem;
+}
+
+.analysis-content h3.career-section-title {
+  display: flex;
+  align-items: center;
+  font-size: 1.5rem;
+  color: var(--color-text-heading);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.analysis-content h3.career-section-title svg {
+  margin-right: 0.75rem;
+  color: var(--color-brand);
 }
 
 

@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useLanguage } from '../../app/contexts/LanguageContext';
 import { getCareerAnalysis, CareerAnalysis } from '../analysis/careerAnalysis';
 import CareerPathResult from '../analysis/CareerPathResult';
-import { BsGraphUp, BsBriefcase, BsPeople, BsArrowRepeat, BsArrowLeft, BsBarChartLine, BsAward, BsLightbulb } from 'react-icons/bs';
+import { BsGraphUp, BsBriefcase, BsPeople, BsArrowRepeat, BsArrowLeft } from 'react-icons/bs';
 
 // 定义类型
 type CognitiveFunction = 'Se' | 'Si' | 'Ne' | 'Ni' | 'Te' | 'Ti' | 'Fe' | 'Fi';
@@ -631,7 +631,7 @@ export default function Test() {
               })}
             </div>
             
-            <div className="mt-8 mb-6">
+            <div className="dimensions-chart">
               <h3>{t('result.cognitiveFunction') || '认知功能'}</h3>
               <div className="functions-grid">
                 {cognitiveScores && resultDetails.functions?.map((func: CognitiveFunction, index: number) => {
@@ -677,7 +677,7 @@ export default function Test() {
               </div>
             </div>
             
-            <div>
+            <div className="dimensions-chart">
               <h3>{t('result.personalityOverview') || '个性概览'}</h3>
               <p className="mb-3">
                 {t(`mbti.${result}.overview`) || t('result.overviewDefault')}
@@ -692,7 +692,7 @@ export default function Test() {
                   <ul className="list-disc pl-5 space-y-1">
                     {Array.from({ length: 5 }, (_, i) => (
                       <li key={i}>
-                        {t(`mbti.${result}.strengths.${i + 1}`) || t('result.dataNotAvailable')}
+                        {t(`career.${result}.strength.${i + 1}`) || t('result.dataNotAvailable')}
                       </li>
                     ))}
                   </ul>
@@ -706,7 +706,7 @@ export default function Test() {
                   <ul className="list-disc pl-5 space-y-1">
                     {Array.from({ length: 5 }, (_, i) => (
                       <li key={i}>
-                        {t(`mbti.${result}.challenges.${i + 1}`) || t('result.dataNotAvailable')}
+                        {t(`career.${result}.challenge.${i + 1}`) || t('result.dataNotAvailable')}
                       </li>
                     ))}
                   </ul>
@@ -723,104 +723,107 @@ export default function Test() {
             
             {careerData ? (
               <>
-                <div className="mb-5">
-                  <h3>
-                    <BsBarChartLine className="inline-block mr-2 text-xl" />
-                    {t('result.workplaceAnalysis') || '职场分析'}
+                <div className="dimensions-chart">
+                  <h3 className="career-section-title">
+                    <BsBriefcase style={{ display: 'inline-block', marginRight: '10px' }} />
+                    {t('result.workEnvironment') || '工作环境'}
                   </h3>
-                  <p className="mb-3">
-                    <span className="font-medium">{t('career.idealWorkEnvironment') || '理想工作环境'}: </span>
-                    {t(careerData.workEnvironment)}
-                  </p>
-                </div>
-                
-                <div className="mb-5">
-                  <h3>
-                    <BsBarChartLine className="inline-block mr-2 text-xl" />
-                    {t('career.teamRole') || '团队角色'}
-                  </h3>
-                  <p className="mb-3">
-                    <span className="font-medium">{t('career.teamRole') || '团队角色'}: </span>
-                    {t(careerData.teamRole)}
-                  </p>
-                </div>
-                
-                <div className="mb-5">
-                  <h3>
-                    <BsBarChartLine className="inline-block mr-2 text-xl" />
-                    {t('career.leadershipStyle') || '领导风格'}
-                  </h3>
-                  <p className="mb-3">
-                    <span className="font-medium">{t('career.leadershipStyle') || '领导风格'}: </span>
-                    {t(careerData.leadershipStyle)}
-                  </p>
-                </div>
-                
-                <div className="mb-5">
-                  <h3>
-                    <BsAward className="inline-block mr-2 text-xl" />
-                    {t('career.strengths') || '优势'}
-                  </h3>
-                  <ul className="list-disc">
-                    {careerData.strengths.map((key, index) => (
-                      <li key={index} className="strength-item">
-                        <span className="strength-icon"><BsLightbulb /></span>
-                        {t(key)}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                
-                <div className="mb-5">
-                  <h3>
-                    <BsGraphUp className="inline-block mr-2 text-xl" />
-                    {t('career.challenges') || '挑战'}
-                  </h3>
-                  <ul className="list-disc">
-                    {careerData.challenges.map((key, index) => (
-                      <li key={index} className="challenge-item">
-                        <span className="challenge-icon"><BsGraphUp /></span>
-                        {t(key)}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                
-                <div className="mb-5">
-                  <h3>
-                    <BsBriefcase className="inline-block mr-2 text-xl" />
-                    {t('career.suitableCareers') || '适合的职业'}
-                  </h3>
-                  <div className="career-recommendation">
-                    <div className="career-recommendation-list">
-                      {careerData ? (
-                        careerData.suitableCareers.map((key, index) => (
-                          <div key={index} className="career-recommendation-item">
-                            <div className="career-recommendation-icon">{index + 1}</div>
-                            <div className="career-recommendation-text">{t(key)}</div>
-                          </div>
-                        ))
-                      ) : (
-                        <div className="flex items-center justify-center p-4">
-                          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mr-2"></div>
-                          <p>{t('loading') || '正在加载职业数据...'}</p>
-                        </div>
-                      )}
-                    </div>
+                  <div className="career-description">
+                    <p>{t(careerData.workEnvironment)}</p>
                   </div>
                 </div>
                 
-                <div className="career-recommendation">
-                  <h3>
-                    <BsLightbulb className="inline-block mr-2 text-xl" />
-                    {t('career.recommendations') || '职业发展建议'}
+                <div className="dimensions-chart">
+                  <h3 className="career-section-title">
+                    <BsGraphUp style={{ display: 'inline-block', marginRight: '10px' }} />
+                    {t('result.strengths') || '优势'}
                   </h3>
-                  
-                  <div className="career-recommendation-list">
-                    {careerData && careerData.recommendations.map((key, index) => (
-                      <div key={index} className="career-recommendation-item">
-                        <div className="career-recommendation-icon">{index + 1}</div>
-                        <div className="career-recommendation-text">{t(key)}</div>
+                  <div className="personality-traits">
+                    {careerData.strengths.map((strength, index) => (
+                      <div key={index} className="trait-card">
+                        <div className="trait-title">
+                          <span className="strength-icon">✓</span>
+                          {t(strength).split(':')[0]}
+                        </div>
+                        <p className="trait-description">
+                          {t(strength).split(':')[1] || t(strength)}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                
+                <div className="dimensions-chart">
+                  <h3 className="career-section-title">
+                    <BsPeople style={{ display: 'inline-block', marginRight: '10px' }} />
+                    {t('result.teamRole') || '团队角色'}
+                  </h3>
+                  <div className="career-description">
+                    <p>{t(careerData.teamRole)}</p>
+                  </div>
+                </div>
+                
+                <div className="dimensions-chart">
+                  <h3 className="career-section-title">
+                    <BsArrowLeft style={{ display: 'inline-block', marginRight: '10px', transform: 'rotate(45deg)' }} />
+                    {t('result.leadershipStyle') || '领导风格'}
+                  </h3>
+                  <div className="career-description">
+                    <p>{t(careerData.leadershipStyle)}</p>
+                  </div>
+                </div>
+                
+                <div className="dimensions-chart">
+                  <h3 className="career-section-title">
+                    <BsArrowRepeat style={{ display: 'inline-block', marginRight: '10px' }} />
+                    {t('result.challenges') || '挑战'}
+                  </h3>
+                  <div className="personality-traits">
+                    {careerData.challenges.map((challenge, index) => (
+                      <div key={index} className="trait-card">
+                        <div className="trait-title">
+                          <span className="challenge-icon">!</span>
+                          {t(challenge).split(':')[0]}
+                        </div>
+                        <p className="trait-description">
+                          {t(challenge).split(':')[1] || t(challenge)}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                
+                <div className="dimensions-chart">
+                  <h3 className="career-section-title">
+                    <BsBriefcase style={{ display: 'inline-block', marginRight: '10px' }} />
+                    {t('result.suitableCareers') || '适合的职业'}
+                  </h3>
+                  <div className="suitable-careers-container">
+                    {careerData.suitableCareers.map((career, index) => (
+                      <div key={index} className="career-card">
+                        <div className="career-card-header">
+                          <div className="career-card-number">{index + 1}</div>
+                          <h4 className="career-card-title">{t(career)}</h4>
+                          <BsBriefcase className="career-card-icon" />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                
+                <div className="dimensions-chart">
+                  <h3 className="career-section-title">
+                    <BsGraphUp style={{ display: 'inline-block', marginRight: '10px' }} />
+                    {t('result.recommendations') || '建议'}
+                  </h3>
+                  <div className="suitable-careers-container">
+                    {careerData.recommendations.map((rec, index) => (
+                      <div key={index} className="career-card">
+                        <div className="career-card-header">
+                          <div className="career-card-number">{index + 1}</div>
+                          <h4 className="career-card-title">{t(rec)}</h4>
+                          <BsGraphUp className="career-card-icon" />
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -840,62 +843,61 @@ export default function Test() {
           <div className="analysis-content">
             <h2>{t('result.relationshipAnalysis') || '关系分析'}: {result} - {typeInfo.title}</h2>
             
-            <div className="mb-5">
-              <h3>
+            <div className="dimensions-chart">
+              <h3 className="career-section-title">
                 <BsPeople style={{ display: 'inline-block', marginRight: '10px' }} />
                 {t('result.communicationStyle') || '沟通风格'}
               </h3>
-              <div className="career-description">
+              <div className="relationship-content">
                 <p>{t(`mbti.${result}.communication`) || t('result.dataBeingPrepared')}</p>
               </div>
             </div>
             
-            <div className="mb-5">
-              <h3>
+            <div className="dimensions-chart">
+              <h3 className="career-section-title">
                 <BsPeople style={{ display: 'inline-block', marginRight: '10px' }} />
                 {t('result.romanticRelationships') || '恋爱关系'}
               </h3>
-              <div className="career-description">
+              <div className="relationship-content">
                 <p>{t(`mbti.${result}.romantic`) || t('result.dataBeingPrepared')}</p>
               </div>
             </div>
             
-            <div className="mb-5">
-              <h3>
+            <div className="dimensions-chart">
+              <h3 className="career-section-title">
                 <BsPeople style={{ display: 'inline-block', marginRight: '10px' }} />
                 {t('result.friendshipStyle') || '友谊风格'}
               </h3>
-              <div className="career-description">
+              <div className="relationship-content">
                 <p>{t(`mbti.${result}.friendship`) || t('result.dataBeingPrepared')}</p>
               </div>
             </div>
             
-            <div className="mb-5">
-              <h3>
+            <div className="dimensions-chart">
+              <h3 className="career-section-title">
                 <BsPeople style={{ display: 'inline-block', marginRight: '10px' }} />
                 {t('result.parentingStyle') || '育儿风格'}
               </h3>
-              <div className="career-description">
+              <div className="relationship-content">
                 <p>{t(`mbti.${result}.parenting`) || t('result.dataBeingPrepared')}</p>
               </div>
             </div>
             
-            <div>
-              <h3>
+            <div className="dimensions-chart">
+              <h3 className="career-section-title">
                 <BsPeople style={{ display: 'inline-block', marginRight: '10px' }} />
                 {t('result.bestMatches') || '最佳匹配'}
               </h3>
-              <div className="flex flex-wrap gap-3 mt-3">
+              <div className="relationship-matches-container">
                 {getCompatibleTypes(result).map((type: string) => (
                   <div key={type} className="relationship-match">
                     <div className="relationship-type">{type}</div>
                     <div className="relationship-description">
-                      {getMbtiTypeInfo(type).title}
-                      <br />
-                      <small>{getMbtiTypeInfo(type).description}</small>
+                      <span className="relationship-title">{getMbtiTypeInfo(type).title}</span>
+                      <p className="relationship-subtitle">{getMbtiTypeInfo(type).description}</p>
                     </div>
                     <div className="match-value">
-                      {['非常高', '高', '中等', '一般'][Math.floor(Math.random() * 2)]}
+                      {['非常高', '高'][Math.floor(Math.random() * 2)]}
                     </div>
                   </div>
                 ))}
