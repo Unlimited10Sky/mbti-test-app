@@ -567,75 +567,120 @@ export default function Test() {
     switch (analysisType) {
       case 'basic':
         return (
-          <div className="result-content">
-            <h2 className="text-2xl font-bold mb-3">{t('result.yourType')}: {result} - {typeInfo.title}</h2>
+          <div className="analysis-content">
+            <h2>{t('result.yourType') || '你的类型'}: {result} - {typeInfo.title}</h2>
             <p className="mb-4">{typeInfo.description}</p>
             
-            <div className="mb-6">
-              <h3 className="text-xl font-bold mb-2">{t('result.dimensionAnalysis')}</h3>
-              {Object.entries(resultDetails.dimensions).map(([dimension, preference]) => (
-                <div key={dimension} className="mb-2">
-                  <div className="flex justify-between mb-1">
-                    <span>{dimension.split('-')[0]}</span>
-                    <span>{Math.round(resultDetails.strengths[dimension as keyof typeof resultDetails.strengths])}%</span>
-                    <span>{dimension.split('-')[1]}</span>
+            <div className="dimensions-chart">
+              <h3>{t('result.dimensionAnalysis') || '维度分析'}</h3>
+              {Object.entries(resultDetails.dimensions).map(([dimension, preference]) => {
+                const dimensionLabels = {
+                  'E-I': { 
+                    left: t('dimension.extraversion') || '外向',
+                    right: t('dimension.introversion') || '内向'
+                  },
+                  'S-N': { 
+                    left: t('dimension.sensing') || '实感',
+                    right: t('dimension.intuition') || '直觉'
+                  },
+                  'T-F': { 
+                    left: t('dimension.thinking') || '思考',
+                    right: t('dimension.feeling') || '情感'
+                  },
+                  'J-P': { 
+                    left: t('dimension.judging') || '判断',
+                    right: t('dimension.perceiving') || '认知'
+                  }
+                };
+                
+                const strength = resultDetails.strengths[dimension as keyof typeof resultDetails.strengths];
+                const isLeft = preference === dimension.split('-')[0];
+                const leftPercentage = isLeft ? strength : 100 - strength;
+                const rightPercentage = isLeft ? 100 - strength : strength;
+                
+                return (
+                  <div key={dimension} className="dimension-row">
+                    <div className="dimension-labels">
+                      <div className={`dimension-label ${isLeft ? 'font-bold' : ''}`}>
+                        <span className="dimension-letter">{dimension.split('-')[0]}</span>
+                        <span className="dimension-name">{dimensionLabels[dimension as keyof typeof dimensionLabels].left}</span>
+                        <span className="dimension-percentage">{Math.round(leftPercentage)}%</span>
+                      </div>
+                      <div className={`dimension-label ${!isLeft ? 'font-bold' : ''}`}>
+                        <span className="dimension-percentage">{Math.round(rightPercentage)}%</span>
+                        <span className="dimension-name">{dimensionLabels[dimension as keyof typeof dimensionLabels].right}</span>
+                        <span className="dimension-letter">{dimension.split('-')[1]}</span>
+                      </div>
+                    </div>
+                    <div className="dimension-bar-container">
+                      <div 
+                        className="dimension-bar dimension-bar-left"
+                        style={{ width: `${leftPercentage}%` }}
+                      >
+                        {isLeft && <div className="dimension-indicator"></div>}
+                      </div>
+                      <div 
+                        className="dimension-bar dimension-bar-right"
+                        style={{ width: `${rightPercentage}%` }}
+                      >
+                        {!isLeft && <div className="dimension-indicator"></div>}
+                      </div>
+                    </div>
                   </div>
-                  <div className="relative h-2 bg-gray-200 rounded">
-                    <div 
-                      className="absolute top-0 left-0 h-full bg-blue-500 rounded"
-                      style={{ 
-                        width: `${resultDetails.strengths[dimension as keyof typeof resultDetails.strengths]}%`,
-                        left: preference === dimension.split('-')[0] ? '0' : 'auto',
-                        right: preference === dimension.split('-')[1] ? '0' : 'auto'
-                      }}
-                    ></div>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
             
-            <div className="mb-6">
-              <h3 className="text-xl font-bold mb-2">{t('result.cognitiveFunction')}</h3>
-              {cognitiveScores && resultDetails.functions?.map((func: CognitiveFunction, index: number) => (
-                <div key={func} className="mb-3">
-                  <div className="flex justify-between items-center">
-                    <div className="flex items-center">
-                      <span className={`inline-block w-6 h-6 rounded-full text-white text-center leading-6 mr-2 ${index < 2 ? 'bg-blue-600' : index < 4 ? 'bg-blue-400' : 'bg-gray-400'}`}>
-                        {index + 1}
-                      </span>
-                      <span className="font-medium">{func} - {cognitiveFunctions[func].name}</span>
+            <div className="mt-8 mb-6">
+              <h3>{t('result.cognitiveFunction') || '认知功能'}</h3>
+              <div className="functions-grid">
+                {cognitiveScores && resultDetails.functions?.map((func: CognitiveFunction, index: number) => {
+                  const functionRankLabels = [
+                    t('result.dominant') || '主导功能',
+                    t('result.auxiliary') || '辅助功能',
+                    t('result.tertiary') || '第三功能',
+                    t('result.inferior') || '劣势功能'
+                  ];
+                  
+                  const scorePercentage = Math.min(100, Math.max(0, (cognitiveScores[func] + 12) / 24 * 100));
+                  
+                  return (
+                    <div key={func} className="function-card">
+                      <div className="function-title">
+                        <span className="function-symbol">{func}</span>
+                        <span>{cognitiveFunctions[func].name}</span>
+                      </div>
+                      <div className="function-description">
+                        {cognitiveFunctions[func].description}
+                      </div>
+                      <div className="progress-container">
+                        <div 
+                          className="progress-bar"
+                          style={{ width: `${scorePercentage}%` }}
+                        ></div>
+                      </div>
+                      <div className="progress-value">
+                        <span>{functionRankLabels[index]}</span>
+                        <span>{Math.round(scorePercentage)}%</span>
+                      </div>
                     </div>
-                    <span className={`text-sm px-2 py-1 rounded ${index < 2 ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-600'}`}>
-                      {index === 0 ? t('result.dominant') : 
-                       index === 1 ? t('result.auxiliary') : 
-                       index === 2 ? t('result.tertiary') : 
-                       t('result.inferior')}
-                    </span>
-                  </div>
-                  <p className="text-sm text-gray-600 mt-1">{cognitiveFunctions[func].description}</p>
-                  {cognitiveScores && (
-                    <div className="mt-1 relative h-2 bg-gray-200 rounded">
-                      <div 
-                        className={`absolute top-0 left-0 h-full rounded ${index < 2 ? 'bg-blue-500' : index < 4 ? 'bg-blue-300' : 'bg-gray-400'}`}
-                        style={{ 
-                          width: `${Math.min(100, Math.max(0, (cognitiveScores[func] + 12) / 24 * 100))}%` 
-                        }}
-                      ></div>
-                    </div>
-                  )}
-                </div>
-              ))}
+                  );
+                })}
+              </div>
             </div>
             
             <div>
-              <h3 className="text-xl font-bold mb-2">{t('result.personalityOverview')}</h3>
+              <h3>{t('result.personalityOverview') || '个性概览'}</h3>
               <p className="mb-3">
                 {t(`mbti.${result}.overview`) || t('result.overviewDefault')}
               </p>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                <div className="bg-blue-50 p-4 rounded-lg">
-                  <h4 className="font-bold mb-2">{t('result.strengths')}</h4>
+              <div className="personality-traits">
+                <div className="trait-card">
+                  <h4 className="trait-title">
+                    <span className="strength-icon">✓</span>
+                    {t('result.strengths') || '优势'}
+                  </h4>
                   <ul className="list-disc pl-5 space-y-1">
                     {Array.from({ length: 5 }, (_, i) => (
                       <li key={i}>
@@ -645,8 +690,11 @@ export default function Test() {
                   </ul>
                 </div>
                 
-                <div className="bg-purple-50 p-4 rounded-lg">
-                  <h4 className="font-bold mb-2">{t('result.challenges')}</h4>
+                <div className="trait-card">
+                  <h4 className="trait-title">
+                    <span className="challenge-icon">!</span>
+                    {t('result.challenges') || '挑战'}
+                  </h4>
                   <ul className="list-disc pl-5 space-y-1">
                     {Array.from({ length: 5 }, (_, i) => (
                       <li key={i}>
@@ -662,102 +710,180 @@ export default function Test() {
         
       case 'career':
         return (
-          <div className="result-content">
-            <h2 className="text-2xl font-bold mb-3">{t('result.careerAnalysis')}: {result} - {typeInfo.title}</h2>
+          <div className="analysis-content">
+            <h2>{t('result.careerAnalysis') || '职业分析'}: {result} - {typeInfo.title}</h2>
             
             {careerData ? (
               <>
                 <div className="mb-5">
-                  <h3 className="text-xl font-bold mb-2">{t('result.workEnvironment')}</h3>
-                  <p>{careerData.workEnvironment}</p>
+                  <h3>
+                    <BsBriefcase style={{ display: 'inline-block', marginRight: '10px' }} />
+                    {t('result.workEnvironment') || '工作环境'}
+                  </h3>
+                  <div className="career-description">
+                    <p>{t(careerData.workEnvironment)}</p>
+                  </div>
                 </div>
                 
                 <div className="mb-5">
-                  <h3 className="text-xl font-bold mb-2">{t('result.strengths')}</h3>
-                  <ul className="list-disc pl-5 space-y-1">
+                  <h3>
+                    <BsGraphUp style={{ display: 'inline-block', marginRight: '10px' }} />
+                    {t('result.strengths') || '优势'}
+                  </h3>
+                  <div className="personality-traits">
                     {careerData.strengths.map((strength, index) => (
-                      <li key={index}>{strength}</li>
+                      <div key={index} className="trait-card">
+                        <div className="trait-title">
+                          <span className="strength-icon">✓</span>
+                          {t(strength).split(':')[0]}
+                        </div>
+                        <p className="trait-description">
+                          {t(strength).split(':')[1] || t(strength)}
+                        </p>
+                      </div>
                     ))}
-                  </ul>
+                  </div>
                 </div>
                 
                 <div className="mb-5">
-                  <h3 className="text-xl font-bold mb-2">{t('result.teamRole')}</h3>
-                  <p>{careerData.teamRole}</p>
+                  <h3>
+                    <BsPeople style={{ display: 'inline-block', marginRight: '10px' }} />
+                    {t('result.teamRole') || '团队角色'}
+                  </h3>
+                  <div className="career-description">
+                    <p>{t(careerData.teamRole)}</p>
+                  </div>
                 </div>
                 
                 <div className="mb-5">
-                  <h3 className="text-xl font-bold mb-2">{t('result.leadershipStyle')}</h3>
-                  <p>{careerData.leadershipStyle}</p>
+                  <h3>
+                    <BsArrowLeft style={{ display: 'inline-block', marginRight: '10px', transform: 'rotate(45deg)' }} />
+                    {t('result.leadershipStyle') || '领导风格'}
+                  </h3>
+                  <div className="career-description">
+                    <p>{t(careerData.leadershipStyle)}</p>
+                  </div>
                 </div>
                 
                 <div className="mb-5">
-                  <h3 className="text-xl font-bold mb-2">{t('result.challenges')}</h3>
-                  <ul className="list-disc pl-5 space-y-1">
+                  <h3>
+                    <BsArrowRepeat style={{ display: 'inline-block', marginRight: '10px' }} />
+                    {t('result.challenges') || '挑战'}
+                  </h3>
+                  <div className="personality-traits">
                     {careerData.challenges.map((challenge, index) => (
-                      <li key={index}>{challenge}</li>
+                      <div key={index} className="trait-card">
+                        <div className="trait-title">
+                          <span className="challenge-icon">!</span>
+                          {t(challenge).split(':')[0]}
+                        </div>
+                        <p className="trait-description">
+                          {t(challenge).split(':')[1] || t(challenge)}
+                        </p>
+                      </div>
                     ))}
-                  </ul>
+                  </div>
                 </div>
                 
                 <div className="mb-5">
-                  <h3 className="text-xl font-bold mb-2">{t('result.suitableCareers')}</h3>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                  <h3>
+                    <BsBriefcase style={{ display: 'inline-block', marginRight: '10px' }} />
+                    {t('result.suitableCareers') || '适合的职业'}
+                  </h3>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                     {careerData.suitableCareers.map((career, index) => (
-                      <div key={index} className="bg-blue-50 p-2 rounded text-center">
-                        {career}
+                      <div key={index} className="bg-blue-50 text-center">
+                        {t(career)}
                       </div>
                     ))}
                   </div>
                 </div>
                 
                 <div>
-                  <h3 className="text-xl font-bold mb-2">{t('result.recommendations')}</h3>
+                  <h3>
+                    <BsGraphUp style={{ display: 'inline-block', marginRight: '10px' }} />
+                    {t('result.recommendations') || '建议'}
+                  </h3>
                   <ul className="list-disc pl-5 space-y-1">
                     {careerData.recommendations.map((rec, index) => (
-                      <li key={index}>{rec}</li>
+                      <li key={index}>
+                        {t(rec)}
+                      </li>
                     ))}
                   </ul>
                 </div>
               </>
             ) : (
-              <p>{t('result.loadingCareerData')}</p>
+              <div className="flex items-center justify-center p-8">
+                <div className="w-12 h-12 border-4 border-solid border-t-transparent rounded-full animate-spin" style={{ borderColor: 'var(--color-brand)', borderTopColor: 'transparent' }}></div>
+                <p className="ml-4">{t('result.loadingCareerData') || '正在加载职业数据...'}</p>
+              </div>
             )}
           </div>
         );
         
       case 'relationship':
         return (
-          <div className="result-content">
-            <h2 className="text-2xl font-bold mb-3">{t('result.relationshipAnalysis')}: {result} - {typeInfo.title}</h2>
+          <div className="analysis-content">
+            <h2>{t('result.relationshipAnalysis') || '关系分析'}: {result} - {typeInfo.title}</h2>
             
             <div className="mb-5">
-              <h3 className="text-xl font-bold mb-2">{t('result.communicationStyle')}</h3>
-              <p>{t(`mbti.${result}.communication`) || t('result.dataBeingPrepared')}</p>
+              <h3>
+                <BsPeople style={{ display: 'inline-block', marginRight: '10px' }} />
+                {t('result.communicationStyle') || '沟通风格'}
+              </h3>
+              <div className="career-description">
+                <p>{t(`mbti.${result}.communication`) || t('result.dataBeingPrepared')}</p>
+              </div>
             </div>
             
             <div className="mb-5">
-              <h3 className="text-xl font-bold mb-2">{t('result.romanticRelationships')}</h3>
-              <p>{t(`mbti.${result}.romantic`) || t('result.dataBeingPrepared')}</p>
+              <h3>
+                <BsPeople style={{ display: 'inline-block', marginRight: '10px' }} />
+                {t('result.romanticRelationships') || '恋爱关系'}
+              </h3>
+              <div className="career-description">
+                <p>{t(`mbti.${result}.romantic`) || t('result.dataBeingPrepared')}</p>
+              </div>
             </div>
             
             <div className="mb-5">
-              <h3 className="text-xl font-bold mb-2">{t('result.friendshipStyle')}</h3>
-              <p>{t(`mbti.${result}.friendship`) || t('result.dataBeingPrepared')}</p>
+              <h3>
+                <BsPeople style={{ display: 'inline-block', marginRight: '10px' }} />
+                {t('result.friendshipStyle') || '友谊风格'}
+              </h3>
+              <div className="career-description">
+                <p>{t(`mbti.${result}.friendship`) || t('result.dataBeingPrepared')}</p>
+              </div>
             </div>
             
             <div className="mb-5">
-              <h3 className="text-xl font-bold mb-2">{t('result.parentingStyle')}</h3>
-              <p>{t(`mbti.${result}.parenting`) || t('result.dataBeingPrepared')}</p>
+              <h3>
+                <BsPeople style={{ display: 'inline-block', marginRight: '10px' }} />
+                {t('result.parentingStyle') || '育儿风格'}
+              </h3>
+              <div className="career-description">
+                <p>{t(`mbti.${result}.parenting`) || t('result.dataBeingPrepared')}</p>
+              </div>
             </div>
             
             <div>
-              <h3 className="text-xl font-bold mb-2">{t('result.bestMatches')}</h3>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-3">
+              <h3>
+                <BsPeople style={{ display: 'inline-block', marginRight: '10px' }} />
+                {t('result.bestMatches') || '最佳匹配'}
+              </h3>
+              <div className="flex flex-wrap gap-3 mt-3">
                 {getCompatibleTypes(result).map((type: string) => (
-                  <div key={type} className="bg-green-50 p-3 rounded-lg text-center">
-                    <div className="font-bold">{type}</div>
-                    <div className="text-sm">{getMbtiTypeInfo(type).title}</div>
+                  <div key={type} className="relationship-match">
+                    <div className="relationship-type">{type}</div>
+                    <div className="relationship-description">
+                      {getMbtiTypeInfo(type).title}
+                      <br />
+                      <small>{getMbtiTypeInfo(type).description}</small>
+                    </div>
+                    <div className="match-value">
+                      {['非常高', '高', '中等', '一般'][Math.floor(Math.random() * 2)]}
+                    </div>
                   </div>
                 ))}
               </div>

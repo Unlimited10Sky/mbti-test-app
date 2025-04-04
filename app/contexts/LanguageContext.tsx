@@ -219,6 +219,112 @@ const translations: Record<string, Record<Language, string>> = {
     en: 'Relationship analysis module is under development, stay tuned...'
   },
   
+  // 结果分析相关
+  'result.yourType': {
+    zh: '您的性格类型',
+    en: 'Your Personality Type'
+  },
+  'result.careerAnalysis': {
+    zh: '职业分析',
+    en: 'Career Analysis'
+  },
+  'result.workEnvironment': {
+    zh: '理想工作环境',
+    en: 'Ideal Work Environment'
+  },
+  'result.teamRole': {
+    zh: '团队角色',
+    en: 'Team Role'
+  },
+  'result.leadershipStyle': {
+    zh: '领导风格',
+    en: 'Leadership Style'
+  },
+  'result.strengths': {
+    zh: '优势特点',
+    en: 'Strengths'
+  },
+  'result.challenges': {
+    zh: '面临挑战',
+    en: 'Challenges'
+  },
+  'result.suitableCareers': {
+    zh: '适合的职业',
+    en: 'Suitable Careers'
+  },
+  'result.recommendations': {
+    zh: '职业发展建议',
+    en: 'Career Development Suggestions'
+  },
+  'result.loadingCareerData': {
+    zh: '正在加载职场分析数据...',
+    en: 'Loading career analysis data...'
+  },
+  'result.relationshipAnalysis': {
+    zh: '关系分析',
+    en: 'Relationship Analysis'
+  },
+  'result.communicationStyle': {
+    zh: '沟通风格',
+    en: 'Communication Style'
+  },
+  'result.romanticRelationships': {
+    zh: '恋爱关系',
+    en: 'Romantic Relationships'
+  },
+  'result.friendshipStyle': {
+    zh: '友谊风格',
+    en: 'Friendship Style'
+  },
+  'result.parentingStyle': {
+    zh: '养育风格',
+    en: 'Parenting Style'
+  },
+  'result.bestMatches': {
+    zh: '最佳匹配类型',
+    en: 'Best Type Matches'
+  },
+  'result.personalityOverview': {
+    zh: '性格概述',
+    en: 'Personality Overview'
+  },
+  'result.dimensionAnalysis': {
+    zh: '维度分析',
+    en: 'Dimension Analysis'
+  },
+  'result.cognitiveFunction': {
+    zh: '认知功能',
+    en: 'Cognitive Functions'
+  },
+  'result.dominant': {
+    zh: '主导',
+    en: 'Dominant'
+  },
+  'result.auxiliary': {
+    zh: '辅助',
+    en: 'Auxiliary'
+  },
+  'result.tertiary': {
+    zh: '第三',
+    en: 'Tertiary'
+  },
+  'result.inferior': {
+    zh: '劣势',
+    en: 'Inferior'
+  },
+  'result.overviewDefault': {
+    zh: '这种性格类型具有独特的思维和行为模式，影响着他们的人际互动和工作风格。',
+    en: 'This personality type has unique thinking and behavioral patterns that influence their interpersonal interactions and work style.'
+  },
+  'result.dataNotAvailable': {
+    zh: '详细数据正在准备中',
+    en: 'Detailed data is being prepared'
+  },
+  'result.dataBeingPrepared': {
+    zh: '此内容正在完善中，敬请期待更新。',
+    en: 'This content is being refined, please look forward to updates.'
+  },
+  
   // MBTI 类型名称和描述
   'mbti.INTJ.title': {
     zh: '建筑师',
