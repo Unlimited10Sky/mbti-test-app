@@ -284,13 +284,13 @@ const translations: Record<string, Record<Language, string>> = {
     zh: '最佳匹配类型',
     en: 'Best Type Matches'
   },
-  'result.personalityOverview': {
-    zh: '性格概述',
-    en: 'Personality Overview'
-  },
   'result.dimensionAnalysis': {
     zh: '维度分析',
     en: 'Dimension Analysis'
+  },
+  'result.personalityOverview': {
+    zh: '个性概览',
+    en: 'Personality Overview'
   },
   'result.cognitiveFunction': {
     zh: '认知功能',
@@ -2017,12 +2017,93 @@ const translations: Record<string, Record<Language, string>> = {
     en: "I'm good at identifying differences between current and past situations, and understanding their implications."
   },
   'test.newquestion.47': {
-    zh: "我相信集体讨论能激发出更好的想法。",
-    en: "I believe group discussions can spark better ideas."
+    zh: "我喜欢寻找多种解决问题的方法，而不仅仅满足于常规方案。",
+    en: "I enjoy finding multiple ways to solve a problem, not just settling for conventional solutions."
   },
   'test.newquestion.48': {
     zh: "我能自然地配合他人的节奏，保持良好的互动。",
     en: "I naturally synchronize with others' rhythms and maintain good interactions."
+  },
+  'dimension.extraversion': {
+    zh: '外向',
+    en: 'Extraversion'
+  },
+  'dimension.introversion': {
+    zh: '内向',
+    en: 'Introversion'
+  },
+  'dimension.sensing': {
+    zh: '感觉',
+    en: 'Sensing'
+  },
+  'dimension.intuition': {
+    zh: '直觉',
+    en: 'Intuition'
+  },
+  'dimension.thinking': {
+    zh: '思考',
+    en: 'Thinking'
+  },
+  'dimension.feeling': {
+    zh: '情感',
+    en: 'Feeling'
+  },
+  'dimension.judging': {
+    zh: '判断',
+    en: 'Judging'
+  },
+  'dimension.perceiving': {
+    zh: '感知',
+    en: 'Perceiving'
+  },
+  // 添加INFJ类型的优势特点翻译
+  'mbti.INFJ.strengths.1': {
+    zh: '擅长深入理解复杂问题和人际关系',
+    en: 'Adept at deeply understanding complex issues and human relationships'
+  },
+  'mbti.INFJ.strengths.2': {
+    zh: '强烈的直觉和洞察力，能预见未来发展',
+    en: 'Strong intuition and insight, able to foresee future developments'
+  },
+  'mbti.INFJ.strengths.3': {
+    zh: '富有创造力和想象力，善于表达思想',
+    en: 'Creative and imaginative, good at expressing ideas'
+  },
+  'mbti.INFJ.strengths.4': {
+    zh: '坚定的价值观和坚强的决心',
+    en: 'Strong values and determination'
+  },
+  'mbti.INFJ.strengths.5': {
+    zh: '深刻的同理心，致力于帮助他人成长',
+    en: 'Deep empathy, committed to helping others grow'
+  },
+
+  // 添加INFJ类型的挑战特点翻译
+  'mbti.INFJ.challenges.1': {
+    zh: '容易过度理想化，对自己和他人期望过高',
+    en: 'Tends to be overly idealistic, with high expectations for self and others'
+  },
+  'mbti.INFJ.challenges.2': {
+    zh: '对批评过于敏感，难以接受反馈',
+    en: 'Overly sensitive to criticism, difficulty accepting feedback'
+  },
+  'mbti.INFJ.challenges.3': {
+    zh: '过度完美主义，导致拖延和自我怀疑',
+    en: 'Excessive perfectionism, leading to procrastination and self-doubt'
+  },
+  'mbti.INFJ.challenges.4': {
+    zh: '难以表达个人需求，容易忽视自我照顾',
+    en: 'Difficulty expressing personal needs, tends to neglect self-care'
+  },
+  'mbti.INFJ.challenges.5': {
+    zh: '在压力下可能完全封闭自己或情绪爆发',
+    en: 'May completely shut down or have emotional outbursts under stress'
+  },
+
+  // 添加INFJ类型的概述翻译
+  'mbti.INFJ.overview': {
+    zh: 'INFJ型人格是16种性格类型中最稀有的类型之一，通常被称为"提倡者"或"理想主义者"。他们善于洞察他人的内心世界，擅长找出他人的动机和潜力，并深切关注他人的成长和福祉。INFJ在价值观上非常坚定，常常受到自己的理想和内心信念所驱动，致力于创造积极的社会变革。尽管他们通常安静且保留，但INFJ在需要时可以表现得非常坚决和有魅力，特别是当他们为自己所相信的事情辩护时。',
+    en: 'INFJs are one of the rarest personality types among the 16 types, often described as "Advocates" or "Idealists." They excel at understanding the inner worlds of others, are skilled at uncovering motivations and potential in people, and are deeply concerned with the growth and wellbeing of others. INFJs hold strong values and are often driven by their ideals and internal beliefs, working toward positive social change. While typically quiet and reserved, INFJs can be quite determined and charismatic when needed, especially when advocating for what they believe in.'
   }
 };
 
