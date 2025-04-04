@@ -9,7 +9,7 @@ export type Language = 'zh' | 'en';
 interface LanguageContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
-  t: (key: string) => string;
+  t: (key: string, forceLang?: Language) => string;
 }
 
 // 创建上下文
@@ -2245,11 +2245,16 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   };
   
   // 翻译函数
-  const translate = (key: string): string => {
+  const translate = (key: string, forceLang?: Language): string => {
     if (!translations[key]) {
       console.warn(`Translation key not found: ${key}`);
       return key;
     }
+    // 如果指定了强制语言，则使用该语言的翻译
+    if (forceLang) {
+      return translations[key][forceLang] || key;
+    }
+    // 否则使用当前语言
     return translations[key][language] || key;
   };
   

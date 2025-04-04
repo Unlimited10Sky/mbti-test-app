@@ -852,7 +852,6 @@ export default function Test() {
                 {t(`mbti.${result}.communication`) ? (
                   <>
                     <p className="relationship-zh">{t(`mbti.${result}.communication`)}</p>
-                    <p className="relationship-en">{language === 'zh' ? t(`en.mbti.${result}.communication`) : t(`zh.mbti.${result}.communication`)}</p>
                   </>
                 ) : <p>{t('result.dataBeingPrepared')}</p>}
               </div>
@@ -867,7 +866,6 @@ export default function Test() {
                 {t(`mbti.${result}.romantic`) ? (
                   <>
                     <p className="relationship-zh">{t(`mbti.${result}.romantic`)}</p>
-                    <p className="relationship-en">{language === 'zh' ? t(`en.mbti.${result}.romantic`) : t(`zh.mbti.${result}.romantic`)}</p>
                   </>
                 ) : <p>{t('result.dataBeingPrepared')}</p>}
               </div>
@@ -882,7 +880,6 @@ export default function Test() {
                 {t(`mbti.${result}.friendship`) ? (
                   <>
                     <p className="relationship-zh">{t(`mbti.${result}.friendship`)}</p>
-                    <p className="relationship-en">{language === 'zh' ? t(`en.mbti.${result}.friendship`) : t(`zh.mbti.${result}.friendship`)}</p>
                   </>
                 ) : <p>{t('result.dataBeingPrepared')}</p>}
               </div>
@@ -897,7 +894,6 @@ export default function Test() {
                 {t(`mbti.${result}.parenting`) ? (
                   <>
                     <p className="relationship-zh">{t(`mbti.${result}.parenting`)}</p>
-                    <p className="relationship-en">{language === 'zh' ? t(`en.mbti.${result}.parenting`) : t(`zh.mbti.${result}.parenting`)}</p>
                   </>
                 ) : <p>{t('result.dataBeingPrepared')}</p>}
               </div>
